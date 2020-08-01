@@ -1,7 +1,8 @@
 'use strict'
 
 app.controls = (() => {
-  let uiCache = {},
+  let automove = 0,
+    uiCache = {},
     uiDelta = {}
 
   let gameCache = {
@@ -10,10 +11,15 @@ app.controls = (() => {
       radius: 0,
       theta: 0,
     },
+    z: 0,
   }
 
   return {
     game: () => ({...gameCache}),
+    setAutomove: function (state) {
+      isAutomove = Number(state)
+      return this
+    },
     ui: () => ({...uiDelta}),
     update: function () {
       return this.updateGame().updateUi()
@@ -25,11 +31,14 @@ app.controls = (() => {
           radius: 0,
           theta: 0,
         },
+        z: 0,
         ...this.gamepad.game(),
         ...this.keyboard.game(),
       }
 
-      gameCache.translate.theta = engine.utility.normalizeAngleSigned(gameCache.translate.theta)
+      if (automove) {
+        gameCache.z = automove
+      }
 
       return this
     },
@@ -61,7 +70,15 @@ engine.loop.on('frame', ({paused}) => {
     return
   }
 
+  const {rotate, z} = app.controls.game()
+
   engine.movement.update({
-    ...app.controls.game(),
+    rotate,
+    translate: {
+      radius: 0,
+      theta: 0,
+    },
   })
+
+  content.system.z.add(z / 60 / 4)
 })
