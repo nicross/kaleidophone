@@ -1,0 +1,21 @@
+{
+  "name": "syngen",
+  "version": "0.1.0",
+  "description": "",
+  "license": "UNLICENSED",
+  "main": "electron/main.js",
+  "private": true,
+  "devDependencies": {
+    "electron": "^9.0.4",
+    "electron-packager": "^14.2.1",
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^3.0.0",
+    "gulp-iife": "^0.4.0",
+    "gulp-run-electron": "^3.0.2",
+    "gulp-uglify-es": "^1.0.4",
+    "gulp-zip": "^5.0.1",
+    "yargs": "^15.3.1"
+  }
+}

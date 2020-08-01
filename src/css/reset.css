@@ -1,0 +1,14 @@
+*, *::after, *::before {
+  background: transparent;
+  border: 0;
+  box-sizing: border-box;
+  color: inherit;
+  cursor: default;
+  font: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+button, button *, button *::after, button *::before {
+  cursor: pointer;
+}
