@@ -2,6 +2,11 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   app.activate()
+
+  engine.state.import({
+    seed: Math.random(),
+  })
+
   engine.loop.start()
 
   engine.const.reverbActive = false
