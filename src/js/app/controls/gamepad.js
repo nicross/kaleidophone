@@ -85,6 +85,22 @@ app.controls.gamepad = {
       })
     }
 
+    if (buttons[0]) {
+      state.automoveDown = true
+    }
+
+    if (buttons[1]) {
+      state.randomizeSeed = true
+    }
+
+    if (buttons[2]) {
+      state.toggleFullscreen = true
+    }
+
+    if (buttons[3]) {
+      state.automoveUp = true
+    }
+
     return state
   },
 }

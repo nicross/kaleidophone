@@ -16,8 +16,11 @@ app.controls = (() => {
 
   return {
     game: () => ({...gameCache}),
-    setAutomove: function (state) {
-      isAutomove = Number(state)
+    toggleAutomove: function (state) {
+      automove = automove == state
+        ? 0
+        : state
+
       return this
     },
     ui: () => ({...uiDelta}),
@@ -70,7 +73,17 @@ engine.loop.on('frame', ({paused}) => {
     return
   }
 
-  const {rotate, z} = app.controls.game()
+  const {
+    rotate,
+    z,
+  } = app.controls.game()
+
+  const {
+    automoveDown,
+    automoveUp,
+    randomizeSeed,
+    toggleFullscreen,
+  } = app.controls.ui()
 
   engine.movement.update({
     rotate,
@@ -81,4 +94,15 @@ engine.loop.on('frame', ({paused}) => {
   })
 
   content.system.z.add(z / 60 / 4)
+
+  if (automoveUp && !automoveDown) {
+    app.controls.toggleAutomove(1)
+  }
+
+  if (automoveDown && !automoveUp) {
+    app.controls.toggleAutomove(-1)
+  }
+
+  // TODO: randomizeSeed
+  // TODO: toggleFullscreen
 })

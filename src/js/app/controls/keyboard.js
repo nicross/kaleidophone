@@ -8,8 +8,12 @@ app.controls.keyboard = (() => {
     ArrowUp: false,
     KeyA: false,
     KeyD: false,
+    KeyF: false,
+    KeyQ: false,
+    KeyR: false,
     KeyS: false,
     KeyW: false,
+    KeyZ: false,
     Numpad4: false,
     Numpad5: false,
     Numpad7: false,
@@ -69,6 +73,23 @@ app.controls.keyboard = (() => {
     },
     ui: () => {
       const state = {}
+
+      if (controls.KeyZ || controls.Numpad1) {
+        state.automoveDown = true
+      }
+
+      if (controls.KeyQ || controls.Numpad7) {
+        state.automoveUp = true
+      }
+
+      if (controls.KeyR || controls.Numpad9) {
+        state.randomizeSeed = true
+      }
+
+      if (controls.KeyF || controls.Numpad3) {
+        state.toggleFullscreen = true
+      }
+
       return state
     },
   }
