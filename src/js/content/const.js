@@ -3,6 +3,7 @@
 content.const = {
   kaleidoDelay: 1/24,
   kaleidoMirrors: 8,
-  stageRadius: 7,
+  stageMaxRadius: 3,
+  stageMinRadius: 1,
   stagePropCount: 12,
 }

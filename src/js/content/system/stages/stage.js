@@ -46,7 +46,7 @@ content.system.stages.stage.prototype = {
     const srand = engine.utility.srand('stage', this.z, 'prop', index)
 
     const angle = srand(0, Math.PI * 2),
-      distance = srand(0, 1) * content.const.stageRadius
+      distance = srand(content.const.stageMinRadius, content.const.stageMaxRadius)
 
     return engine.props.create(content.prop.tone, {
       detune: srand(-25, 25),
