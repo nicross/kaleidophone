@@ -10,7 +10,7 @@ content.system.stages.stage.prototype = {
   construct: function (z) {
     this.z = z
 
-    this.bus = engine.audio.mixer.createBus()
+    this.bus = content.system.kaleido.createSend()
     this.bus.gain.value = engine.const.zeroGain
 
     this.generate()

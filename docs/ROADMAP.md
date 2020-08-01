@@ -8,6 +8,5 @@
   - Resume audio on first user gesture
 - Frequency selection
 - Kaleido audio processor
-  - Routing
   - Stereo mirroring
 - Visualizer
