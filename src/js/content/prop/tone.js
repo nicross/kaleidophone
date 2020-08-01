@@ -10,6 +10,9 @@ content.prop.tone = engine.prop.base.invent({
       detune,
       frequency,
       gain: 1,
+      type: 'triangle',
+    }).filtered({
+      frequency: frequency * 4,
     }).connect(this.output.input)
   },
   onDestroy: function () {
