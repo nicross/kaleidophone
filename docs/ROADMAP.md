@@ -6,7 +6,4 @@
   - Random seed (R / Gamepad A)
   - Toggle fullscreen (F / Gamepad Y)
   - Resume audio on first user gesture
-- Frequency selection
-- Kaleido audio processor
-  - Stereo mirroring
 - Visualizer
