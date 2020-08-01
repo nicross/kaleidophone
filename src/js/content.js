@@ -2,4 +2,5 @@
 
 const content  = {
   prop: {},
+  system: {},
 }
