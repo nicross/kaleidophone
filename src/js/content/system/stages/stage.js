@@ -32,17 +32,19 @@ content.system.stages.stage.prototype = {
       return this
     }
 
+    const frequencies = content.system.frequencies.get(this.z)
+
     this.props = []
 
     for (let i = 0; i < content.const.stagePropCount; i += 1) {
       this.props.push(
-        this.generateProp(i)
+        this.generateProp(i, frequencies)
       )
     }
 
     return this
   },
-  generateProp: function (index) {
+  generateProp: function (index, frequencies) {
     const srand = engine.utility.srand('stage', this.z, 'prop', index)
 
     const angle = srand(0, Math.PI * 2),
@@ -50,7 +52,7 @@ content.system.stages.stage.prototype = {
 
     return engine.props.create(content.prop.tone, {
       detune: srand(-25, 25),
-      frequency: srand(110, 440), // TODO: Select from scale or chord
+      frequency: engine.utility.choose(frequencies, srand()),
       output: this.bus,
       radius: 0,
       x: Math.cos(angle) * distance,
