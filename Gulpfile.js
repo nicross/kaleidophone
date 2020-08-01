@@ -54,6 +54,7 @@ gulp.task('dist-electron', async () => {
       '.gitignore',
       '.gitmodules',
       'dist',
+      'docs',
       'Gulpfile.js',
       'node_modules',
       'package-lock.json',
