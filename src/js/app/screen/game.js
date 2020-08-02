@@ -19,7 +19,7 @@ app.screen.game = (() => {
   }
 
   function onFrame() {
-
+    app.screen.game.canvas.update()
   }
 
   return {

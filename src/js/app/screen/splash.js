@@ -16,6 +16,8 @@ app.screen.splash = (() => {
     if (controls.confirm || controls.enter || controls.space || controls.start) {
       onInteract()
     }
+
+    app.screen.splash.canvas.update()
   }
 
   function onInteract() {
