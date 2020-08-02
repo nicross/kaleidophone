@@ -1,12 +1,21 @@
 'use strict'
 
 content.system.sub = (() => {
-  const bus = engine.audio.mixer.createBus()
+  const bus = engine.audio.mixer.createBus(),
+    context = engine.audio.context(),
+    merger = context.createChannelMerger(2)
 
-  const simple = engine.audio.synth.createSimple({
-    gain: 1,
-  }).connect(bus)
+  const left = engine.audio.synth.createSimple({
+    frequency: 0,
+    gain: Math.sqrt(2),
+  }).connect(merger, 0, 0)
 
+  const right = engine.audio.synth.createSimple({
+    frequency: 0,
+    gain: Math.sqrt(2),
+  }).connect(merger, 0, 1)
+
+  merger.connect(bus)
   bus.gain.value = engine.utility.fromDb(-12)
 
   return {
@@ -20,7 +29,9 @@ content.system.sub = (() => {
         mix = z - zi
 
       const frequency = engine.utility.lerp(floor, ceiling, mix)
-      engine.audio.ramp.linear(simple.param.frequency, frequency, delta)
+
+      engine.audio.ramp.linear(left.param.frequency, frequency - content.const.subBeat/2, delta)
+      engine.audio.ramp.linear(right.param.frequency, frequency + content.const.subBeat/2, delta)
 
       return this
     },
