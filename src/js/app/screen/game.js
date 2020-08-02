@@ -9,7 +9,7 @@ app.screen.game = (() => {
       seed: Math.random(),
     })
 
-    engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, 1, 0.5)
+    engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, 1, 1)
 
     engine.loop.resume()
   }
