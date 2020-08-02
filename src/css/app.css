@@ -1,4 +1,4 @@
-.sg-a-app {
+.a-app {
   height: 100%;
   left: 0;
   position: absolute;
@@ -7,7 +7,7 @@
   transition: opacity 1s linear;
   width: 100%;
 }
-  .sg-a-app--overlaySupport {
+  .a-app--overlaySupport {
     height: 100%;
     left: 0;
     pointer-events: none;
@@ -35,6 +35,6 @@
       z-index: 1;
     }
 
-.sg-a-app-active {
+.a-app-active {
   opacity: 1;
 }
