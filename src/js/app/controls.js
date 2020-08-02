@@ -82,7 +82,6 @@ engine.loop.on('frame', ({paused}) => {
     automoveDown,
     automoveUp,
     randomizeSeed,
-    toggleFullscreen,
   } = app.controls.ui()
 
   engine.movement.update({
@@ -104,5 +103,4 @@ engine.loop.on('frame', ({paused}) => {
   }
 
   // TODO: randomizeSeed
-  // TODO: toggleFullscreen
 })

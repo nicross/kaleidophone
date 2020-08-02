@@ -41,10 +41,10 @@ app.controls.gamepad = {
       })
     }
 
-    const down = buttons[4] || buttons[13],
+    const down = buttons[13],
       left = buttons[14],
       right = buttons[15],
-      up = buttons[5] || buttons[12]
+      up = buttons[12]
 
     if (left && !right) {
       rotate = -1
@@ -52,11 +52,17 @@ app.controls.gamepad = {
       rotate = 1
     }
 
+    // TODO: Triggers for analog up/down controls
+    // buttons[6].value (backward)
+    // buttons[7].value (forward)
+
     if (down && !up) {
       z = -1
     } else if (up && !down) {
       z = 1
     }
+
+    z = engine.utility.clamp(z, -1, 1)
 
     return {
       rotate,
@@ -85,19 +91,15 @@ app.controls.gamepad = {
       })
     }
 
-    if (buttons[0]) {
+    if (buttons[0] || buttons[4]) {
       state.automoveDown = true
     }
 
-    if (buttons[1]) {
+    if (buttons[1] || buttons[8]) {
       state.randomizeSeed = true
     }
 
-    if (buttons[2]) {
-      state.toggleFullscreen = true
-    }
-
-    if (buttons[3]) {
+    if (buttons[3] || buttons[5]) {
       state.automoveUp = true
     }
 

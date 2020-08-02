@@ -6,9 +6,9 @@ app.controls.keyboard = (() => {
     ArrowLeft: false,
     ArrowRight: false,
     ArrowUp: false,
+    Home: false,
     KeyA: false,
     KeyD: false,
-    KeyF: false,
     KeyQ: false,
     KeyR: false,
     KeyS: false,
@@ -18,6 +18,8 @@ app.controls.keyboard = (() => {
     Numpad5: false,
     Numpad7: false,
     Numpad8: false,
+    PageDown: false,
+    PageUp: false,
   }
 
   window.addEventListener('keydown', (e) => {
@@ -74,20 +76,16 @@ app.controls.keyboard = (() => {
     ui: () => {
       const state = {}
 
-      if (controls.KeyZ || controls.Numpad1) {
+      if (controls.KeyZ || controls.Numpad1 || controls.PageDown) {
         state.automoveDown = true
       }
 
-      if (controls.KeyQ || controls.Numpad7) {
+      if (controls.KeyQ || controls.Numpad7 || controls.PageUp) {
         state.automoveUp = true
       }
 
-      if (controls.KeyR || controls.Numpad9) {
+      if (controls.Home || controls.KeyR || controls.Numpad9) {
         state.randomizeSeed = true
-      }
-
-      if (controls.KeyF || controls.Numpad3) {
-        state.toggleFullscreen = true
       }
 
       return state
