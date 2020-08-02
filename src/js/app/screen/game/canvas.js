@@ -5,14 +5,17 @@ app.screen.game.canvas = (() => {
   let canvas,
     canvasContext
 
-  app.once('activate', () => {
-    canvas = document.querySelector('.a-game--canvas')
-    canvasContext = canvas.getContext('2d')
-  })
-
   return {
+    activate: function () {
+      canvas = document.querySelector('.a-game--canvas')
+      canvasContext = canvas.getContext('2d')
+
+      return this
+    },
     update: function () {
       return this
     },
   }
 })()
+
+app.once('activate', () => app.screen.game.canvas.activate())
