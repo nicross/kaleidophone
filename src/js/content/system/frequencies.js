@@ -85,7 +85,7 @@ content.system.frequencies = (() => {
   }
 
   return {
-    get: function (z) {
+    get: (z) => {
       const chord = getChord(z),
         color = getColor(z)
 
@@ -108,6 +108,10 @@ content.system.frequencies = (() => {
       octaveField.reset()
 
       return this
+    },
+    sub: (z) => {
+      const chord = getChord(z)
+      return engine.utility.toSubFrequency(chord[0], 80)
     },
   }
 })()
