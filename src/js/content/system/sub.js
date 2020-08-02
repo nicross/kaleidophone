@@ -7,12 +7,12 @@ content.system.sub = (() => {
 
   const left = engine.audio.synth.createSimple({
     frequency: 0,
-    gain: Math.sqrt(2),
+    gain: 0.5,
   }).connect(merger, 0, 0)
 
   const right = engine.audio.synth.createSimple({
     frequency: 0,
-    gain: Math.sqrt(2),
+    gain: 0.5,
   }).connect(merger, 0, 1)
 
   merger.connect(bus)

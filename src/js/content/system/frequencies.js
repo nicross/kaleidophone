@@ -111,7 +111,7 @@ content.system.frequencies = (() => {
     },
     sub: (z) => {
       const chord = getChord(z)
-      return engine.utility.toSubFrequency(chord[0], 100)
+      return engine.utility.toSubFrequency(chord[0], 80)
     },
   }
 })()
