@@ -3,17 +3,25 @@ app.screen.splash.canvas = (() => {
     width = 64
 
   let canvas,
-    canvasContext,
-    interactSpriteData,
-    logoSpriteData
+    context,
+    interactSprite,
+    logoSprite
+
+  function cloneImageData(imageData) {
+    return new ImageData(
+      new Uint8ClampedArray(imageData.data),
+      imageData.width,
+      imageData.height
+    )
+  }
 
   function loadSprites() {
     loadSprite('./img/splash/interact.png', 31, 3).then((imageData) => {
-      interactSpriteData = imageData
+      interactSprite = imageData
     })
 
     loadSprite('./img/splash/logo.png', 54, 26).then((imageData) => {
-      logoSpriteData = imageData
+      logoSprite = imageData
     })
   }
 
@@ -36,18 +44,35 @@ app.screen.splash.canvas = (() => {
     })
   }
 
+  function paintInteractSprite(frame) {
+    const sprite = cloneImageData(interactSprite)
+    context.putImageData(sprite, 16, 53)
+  }
+
+  function paintLogoSprite(frame) {
+    const sprite = cloneImageData(logoSprite)
+    context.putImageData(sprite, 5, 13)
+  }
+
   return {
     activate: function () {
       canvas = document.querySelector('.a-splash--canvas')
-      canvasContext = canvas.getContext('2d')
+      context = canvas.getContext('2d')
 
       loadSprites()
 
       return this
     },
-    update: function () {
-      // TODO: Clear canvas
-      // TODO: Paint sprites
+    update: function ({frame}) {
+      context.clearRect(0, 0, width, height)
+
+      if (interactSprite) {
+        paintInteractSprite(frame)
+      }
+
+      if (logoSprite) {
+        paintLogoSprite(frame)
+      }
 
       return this
     },

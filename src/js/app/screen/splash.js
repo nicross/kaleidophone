@@ -10,14 +10,14 @@ app.screen.splash = (() => {
     engine.loop.off('frame', onFrame)
   }
 
-  function onFrame() {
+  function onFrame(e) {
     const controls = app.controls.ui()
 
     if (controls.confirm || controls.enter || controls.space || controls.start) {
       onInteract()
     }
 
-    app.screen.splash.canvas.update()
+    app.screen.splash.canvas.update(e)
   }
 
   function onInteract() {
