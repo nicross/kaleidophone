@@ -1,5 +1,5 @@
 # Kaleidophone
-A psycedelic audio toy submitted to [LOWREZJAM 2020](https://itch.io/jam/lowrezjam-2020).
+A relaxing generative audio toy submitted to [LOWREZJAM 2020](https://itch.io/jam/lowrezjam-2020).
 Developed with [syngen](https://github.com/nicross/syngen).
 
 ## Development
