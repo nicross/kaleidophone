@@ -1,5 +1,6 @@
 app.screen.splash.canvas = (() => {
-  const height = 64,
+  const interactFrequency = 1/2,
+    height = 64,
     width = 64
 
   let canvas,
@@ -45,7 +46,15 @@ app.screen.splash.canvas = (() => {
   }
 
   function paintInteractSprite(frame) {
-    const sprite = cloneImageData(interactSprite)
+    const opacity = 0.5 + Math.abs(Math.sin(interactFrequency * Math.PI * frame / 60) / 2),
+      sprite = cloneImageData(interactSprite)
+
+    const data = sprite.data
+
+    for (let i = 3; i < data.length; i += 4) {
+      data[i] = Math.round(opacity * 255)
+    }
+
     context.putImageData(sprite, 16, 53)
   }
 
