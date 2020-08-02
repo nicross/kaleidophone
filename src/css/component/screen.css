@@ -9,5 +9,6 @@
 }
   .c-screen--canvas {
     height: 100vmin;
+    image-rendering: pixelated;
     width: 100vmin;
   }
