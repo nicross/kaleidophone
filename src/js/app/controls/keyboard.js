@@ -6,6 +6,7 @@ app.controls.keyboard = (() => {
     ArrowLeft: false,
     ArrowRight: false,
     ArrowUp: false,
+    Enter: false,
     Home: false,
     KeyA: false,
     KeyD: false,
@@ -14,6 +15,7 @@ app.controls.keyboard = (() => {
     KeyS: false,
     KeyW: false,
     KeyZ: false,
+    Space: false,
     Numpad4: false,
     Numpad5: false,
     Numpad7: false,
@@ -76,6 +78,10 @@ app.controls.keyboard = (() => {
     ui: () => {
       const state = {}
 
+      if (controls.Enter) {
+        state.enter = true
+      }
+
       if (controls.KeyZ || controls.Numpad1 || controls.PageDown) {
         state.automoveDown = true
       }
@@ -86,6 +92,10 @@ app.controls.keyboard = (() => {
 
       if (controls.Home || controls.KeyR || controls.Numpad9) {
         state.randomizeSeed = true
+      }
+
+      if (controls.Space) {
+        state.space = true
       }
 
       return state

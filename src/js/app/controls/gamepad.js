@@ -91,6 +91,11 @@ app.controls.gamepad = {
       })
     }
 
+    if (buttons[0]) {
+      // XXX: Only for splash
+      state.confirm = true
+    }
+
     if (buttons[0] || buttons[4]) {
       state.automoveDown = true
     }
@@ -101,6 +106,10 @@ app.controls.gamepad = {
 
     if (buttons[3] || buttons[5]) {
       state.automoveUp = true
+    }
+
+    if (buttons[9]) {
+      state.start = true
     }
 
     return state
