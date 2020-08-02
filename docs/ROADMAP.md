@@ -4,6 +4,5 @@
   - Random seed
   - Toggle fullscreen
   - Resume audio on first user gesture
-- Dither channel (subtle white noise)
 - Splash screen
 - Visualizer
