@@ -102,5 +102,9 @@ engine.loop.on('frame', ({paused}) => {
     app.controls.toggleAutomove(-1)
   }
 
-  // TODO: randomizeSeed
+  if (randomizeSeed) {
+    engine.state.import({
+      seed: Math.random(),
+    })
+  }
 })
