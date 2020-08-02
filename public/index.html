@@ -8,7 +8,19 @@
   </head>
   <body role="application">
     <main class="sg-a-app">
-      <canvas class="sg-a-app--overlaySupport"></canvas>
+      <canvas class="sg-a-app--overlaySupport" aria-hidden="true" role="presentation"></canvas>
+
+      <div class="a-app--screen a-app--game">
+        <section class="c-screen a-game" tabindex="-1">
+          <canvas class="c-screen--canvas a-game--canvas" height="64" width="64"></canvas>
+        </section>
+      </div>
+
+      <div class="a-app--screen a-app--splash">
+        <section class="c-screen a-splash" tabindex="-1" arial-label="Kaleidophone by shiftBacktick, Interact to Begin">
+          <canvas class="c-screen--canvas a-splash--canvas" height="64" width="64"></canvas>
+        </section>
+      </div>
     </main>
     <script src="./scripts.min.js"></script>
   </body>

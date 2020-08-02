@@ -14,5 +14,7 @@ const app = engine.utility.pubsub.decorate({
 
     return this
   },
+  screen: {},
+  state: {},
   utility: {},
 })

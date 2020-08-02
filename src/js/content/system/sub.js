@@ -27,4 +27,10 @@ content.system.sub = (() => {
   }
 })()
 
-engine.loop.on('frame', () => content.system.sub.update())
+engine.loop.on('frame', ({paused}) => {
+  if (paused) {
+    return
+  }
+
+  content.system.sub.update()
+})

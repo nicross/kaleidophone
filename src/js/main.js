@@ -3,14 +3,10 @@
 document.addEventListener('DOMContentLoaded', () => {
   app.activate()
 
-  engine.state.import({
-    seed: Math.random(),
-  })
-
-  engine.loop.start()
+  engine.loop.start().pause()
 
   engine.const.reverbActive = false
   engine.audio.mixer.auxiliary.reverb.refreshActive()
-})
 
-// TODO: Call engine.audio.start() on first user gesture
+  engine.audio.mixer.master.param.gain.value = engine.const.zeroGain
+})

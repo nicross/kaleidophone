@@ -54,5 +54,12 @@ content.system.stages = (() => {
   }
 })()
 
-engine.loop.on('frame', () => content.system.stages.update())
+engine.loop.on('frame', ({paused}) => {
+  if (paused) {
+    return
+  }
+
+  content.system.stages.update()
+})
+
 engine.state.on('reset', () => content.system.stages.reset())
