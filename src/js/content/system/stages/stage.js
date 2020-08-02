@@ -51,8 +51,9 @@ content.system.stages.stage.prototype = {
       distance = srand(content.const.stageMinRadius, content.const.stageMaxRadius)
 
     return engine.props.create(content.prop.tone, {
-      detune: srand(-12.5, 12.5),
+      detune: srand(0),
       frequency: engine.utility.choose(frequencies, srand()),
+      modFrequency: srand(),
       output: this.bus,
       radius: 0,
       x: Math.cos(angle) * distance,

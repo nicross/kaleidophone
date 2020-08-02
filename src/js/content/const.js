@@ -1,7 +1,7 @@
 'use strict'
 
 content.const = {
-  kaleidoDelay: 1/24,
+  kaleidoDelay: 1,
   kaleidoMirrors: 8,
   stageMaxRadius: 2,
   stageMinRadius: 1,
