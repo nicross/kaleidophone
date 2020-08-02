@@ -1,5 +1,6 @@
 app.screen.splash.canvas = (() => {
   const interactFrequency = 1/2,
+    logoFrequency = 1/6,
     height = 64,
     width = 64
 
@@ -59,7 +60,23 @@ app.screen.splash.canvas = (() => {
   }
 
   function paintLogoSprite(frame) {
-    const sprite = cloneImageData(logoSprite)
+    const rotation = logoFrequency * frame / 60,
+      sprite = cloneImageData(logoSprite)
+
+    const data = sprite.data
+
+    for (let i = 0; i < data.length; i += 4) {
+      const color = app.utility.color.rotateRgb({
+        r: data[i],
+        g: data[i+1],
+        b: data[i+2],
+      }, rotation)
+
+      data[i] = color.r
+      data[i+1] = color.g
+      data[i+2] = color.b
+    }
+
     context.putImageData(sprite, 5, 13)
   }
 
