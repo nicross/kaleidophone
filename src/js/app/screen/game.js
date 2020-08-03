@@ -35,6 +35,14 @@ app.screen.game = (() => {
     const game = app.controls.game(),
       ui = app.controls.ui()
 
+    if (game.rotate) {
+      autoRotate = false
+    }
+
+    if (game.z) {
+      autoMove = 0
+    }
+
     if (ui.play) {
       autoMove = autoMove != 1 ? 1 : 0
     }
