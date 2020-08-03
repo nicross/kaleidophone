@@ -26,25 +26,28 @@ content.system.stages = (() => {
       const z = content.system.z.get(),
         zi = Math.floor(z)
 
+      const ceilingZ = zi + 1,
+        floorZ = zi
+
       if (!ceiling) {
-        ceiling = content.system.stages.stage.create(zi + 1)
+        ceiling = content.system.stages.stage.create(ceilingZ)
       }
 
       if (!floor) {
-        floor = content.system.stages.stage.create(zi)
+        floor = content.system.stages.stage.create(floorZ)
       }
 
-      if (z > ceiling.z) {
-        floor.destroy()
-        floor = ceiling
-        ceiling = content.system.stages.stage.create(zi + 1)
-      } else if (z < floor.z) {
+      if (ceiling.z != ceilingZ) {
         ceiling.destroy()
-        ceiling = floor
-        floor = content.system.stages.stage.create(zi - 1)
+        ceiling = content.system.stages.stage.create(ceilingZ)
       }
 
-      mix = engine.utility.scale(z, zi, zi + 1, 0, 1)
+      if (floor.z != floorZ) {
+        floor.destroy()
+        floor = content.system.stages.stage.create(floorZ)
+      }
+
+      mix = engine.utility.scale(z, floorZ, ceilingZ, 0, 1)
 
       ceiling.setMix(mix)
       floor.setMix(1 - mix)
