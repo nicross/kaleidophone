@@ -12,7 +12,7 @@ content.prop.tone = engine.prop.base.invent({
       carrierFrequency: frequency,
       carrierGain: 3/4,
       carrierType: 'triangle',
-      gain: engine.utility.fromDb(-3),
+      gain: engine.utility.fromDb(-1.5),
       modDepth: 1/4,
       modFrequency: engine.utility.lerp(1/16, 1/4, modFrequency),
     }).filtered({
