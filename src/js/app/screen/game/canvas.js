@@ -6,10 +6,14 @@ app.screen.game.canvas = (() => {
     patternWidth = 32,
     width = 64
 
-  const patternHypotnuse = Math.sqrt(patternHeight ** 2 + patternWidth ** 2) / 2
+  const patternBackground = patternContext.createLinearGradient(0, 0, patternWidth, patternHeight),
+    patternHypotnuse = Math.sqrt(patternHeight ** 2 + patternWidth ** 2) / 2
 
   let canvas,
     context
+
+  patternBackground.addColorStop(0, '#181818')
+  patternBackground.addColorStop(1, '#000000')
 
   patternCanvas.height = patternHeight
   patternCanvas.width = patternWidth
@@ -103,7 +107,8 @@ app.screen.game.canvas = (() => {
       }
     }
 
-    patternContext.clearRect(0, 0, patternWidth, patternHeight)
+    patternContext.fillStyle = patternBackground
+    patternContext.fillRect(0, 0, patternWidth, patternHeight)
 
     for (const prop of analysis) {
       const size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
