@@ -1,8 +1,7 @@
 'use strict'
 
 app.controls = (() => {
-  let automove = 0,
-    uiCache = {},
+  let uiCache = {},
     uiDelta = {}
 
   let gameCache = {
@@ -16,13 +15,6 @@ app.controls = (() => {
 
   return {
     game: () => ({...gameCache}),
-    toggleAutomove: function (state) {
-      automove = automove == state
-        ? 0
-        : state
-
-      return this
-    },
     ui: () => ({...uiDelta}),
     update: function () {
       return this.updateGame().updateUi()
@@ -37,10 +29,6 @@ app.controls = (() => {
         z: 0,
         ...this.gamepad.game(),
         ...this.keyboard.game(),
-      }
-
-      if (automove) {
-        gameCache.z = automove
       }
 
       return this
@@ -66,45 +54,4 @@ app.controls = (() => {
   }
 })()
 
-engine.loop.on('frame', ({paused}) => {
-  app.controls.update()
-
-  if (paused) {
-    return
-  }
-
-  const {
-    rotate,
-    z,
-  } = app.controls.game()
-
-  const {
-    automoveDown,
-    automoveUp,
-    randomizeSeed,
-  } = app.controls.ui()
-
-  engine.movement.update({
-    rotate,
-    translate: {
-      radius: 0,
-      theta: 0,
-    },
-  })
-
-  content.system.z.add(z / 60 / 4)
-
-  if (automoveUp && !automoveDown) {
-    app.controls.toggleAutomove(1)
-  }
-
-  if (automoveDown && !automoveUp) {
-    app.controls.toggleAutomove(-1)
-  }
-
-  if (randomizeSeed) {
-    engine.state.import({
-      seed: Math.random(),
-    })
-  }
-})
+engine.loop.on('frame', () => app.controls.update())

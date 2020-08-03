@@ -11,24 +11,30 @@ Randomize the seed or reload to hear a new song.
 ### Keyboard controls
 | Action | Key 1 | Key 2 | Key 3 |
 | - | - | - | - |
+| Play | E | Page Up | Numpad 9 |
+| Rewind | Q | Page Down | Numpad 7 |
+| Increase Speed | = | | Numpad + |
+| Decrease Speed | - | | Numpad - |
+| Set Speed | 0–9 | | |
 | Scrub Forward | W | Up Arrow | Numpad 8 |
 | Scrub Backward | S | Down Arrow | Numpad 5 |
 | Turn Left | A | Left Arrow | Numpad 4 |
 | Turn Right | D | Right Arrow | Numpad 6 |
-| Play Forward | Q | Page Up | Numpad 7 |
-| Play Backward | Z | Page Down | Numpad 1 |
-| Randomize Seed | R | Home | Numpad 9 |
+| Toggle Rotation | F | End | Numpad 0 |
+| Randomize Seed | R | Home | Numpad * |
 
 ### Gamepad controls
 | Action | Button 1 | Button 2 |
 | - | - | - |
-| Scrub Forward | Left Stick | D-Pad Up |
-| Scrub Backward | Left Stick | D-Pad Down |
-| Turn Left | Right Stick | D-Pad Left |
-| Turn Right | Right Stick | D-Pad Right |
-| Play Forward | Y | Right Bumper |
-| Play Backward | A | Left Bumper |
-| Randomize Seed | X | Select |
+| Play | D-Pad Right | Right Bumper |
+| Rewind | D-Pad Left | Left Bumper |
+| Increase Speed | D-Pad Up | |
+| Decrease Speed | D-Pad Down | |
+| Scrub Forward | Right Trigger | |
+| Scrub Backward | Left Trigger | |
+| Turning | Right Stick | |
+| Toggle Rotation | Press Right Stick | |
+| Randomize Seed | Select | |
 
 ## Development
 To get started, please  use [npm](https://nodejs.org) to install the required dependencies:

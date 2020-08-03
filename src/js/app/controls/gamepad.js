@@ -14,8 +14,6 @@ app.controls.gamepad = {
       return {}
     }
 
-    const buttons = {}
-
     let rotate = 0,
       z = 0
 
@@ -26,47 +24,24 @@ app.controls.gamepad = {
         continue
       }
 
-      if (0 in gamepad.axes && 1 in gamepad.axes) {
-        z += this.deadzone(gamepad.axes[1])
-      }
-
       if (2 in gamepad.axes && 3 in gamepad.axes) {
         rotate += this.deadzone(gamepad.axes[2])
       } else {
         rotate += this.deadzone(gamepad.axes[0])
       }
 
-      gamepad.buttons.forEach((button, i) => {
-        buttons[i] |= button.pressed
-      })
+      if (6 in gamepad.buttons) {
+        z -= gamepad.buttons[6].value
+      }
+
+      if (7 in gamepad.buttons) {
+        z += gamepad.buttons[7].value
+      }
     }
-
-    const down = buttons[13],
-      left = buttons[14],
-      right = buttons[15],
-      up = buttons[12]
-
-    if (left && !right) {
-      rotate = -1
-    } else if (right && !left) {
-      rotate = 1
-    }
-
-    // TODO: Triggers for analog up/down controls
-    // buttons[6].value (backward)
-    // buttons[7].value (forward)
-
-    if (down && !up) {
-      z = -1
-    } else if (up && !down) {
-      z = 1
-    }
-
-    z = engine.utility.clamp(z, -1, 1)
 
     return {
-      rotate,
-      z,
+      rotate: engine.utility.clamp(rotate, -1, 1),
+      z: engine.utility.clamp(z, -1, 1),
     }
   },
   ui: function () {
@@ -91,25 +66,36 @@ app.controls.gamepad = {
       })
     }
 
+    if (buttons[9]) {
+      state.start = true
+    }
+
     if (buttons[0]) {
-      // XXX: Only for splash
       state.confirm = true
     }
 
-    if (buttons[0] || buttons[4]) {
-      state.automoveDown = true
+    if (buttons[5] || buttons[15]) {
+      state.play = true
     }
 
-    if (buttons[1] || buttons[8]) {
+    if (buttons[4] || buttons[14]) {
+      state.rewind = true
+    }
+
+    if (buttons[12]) {
+      state.increaseSpeed = true
+    }
+
+    if (buttons[13]) {
+      state.decreaseSpeed = true
+    }
+
+    if (buttons[8]) {
       state.randomizeSeed = true
     }
 
-    if (buttons[3] || buttons[5]) {
-      state.automoveUp = true
-    }
-
-    if (buttons[9]) {
-      state.start = true
+    if (buttons[11]) {
+      state.toggleRotate = true
     }
 
     return state
