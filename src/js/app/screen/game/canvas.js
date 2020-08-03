@@ -106,11 +106,14 @@ app.screen.game.canvas = (() => {
     patternContext.clearRect(0, 0, patternWidth, patternHeight)
 
     for (const prop of analysis) {
-      patternContext.fillStyle = `hsl(${prop.frequency * 360}, 100%, 50%)`
-
       const size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
       const {x, y} = calculate(prop.distance, prop.angle, size)
 
+      const gradient = patternContext.createLinearGradient(x - size/2, y - size/2, x + size/2, y + size/2)
+      gradient.addColorStop(0, `hsl(${prop.frequency * 360}, 100%, 33.33%)`)
+      gradient.addColorStop(1, `hsl(${prop.frequency * 360}, 100%, 66.66%)`)
+
+      patternContext.fillStyle = gradient
       patternContext.fillRect(x, y, size, size)
     }
   }
