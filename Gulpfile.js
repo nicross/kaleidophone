@@ -82,6 +82,8 @@ gulp.task('dist-html5', () => {
   // XXX: Archive has no root directory
   return gulp.src([
     'public/favicon.png',
+    'public/img/splash/interact.png',
+    'public/img/splash/logo.png',
     'public/index.html',
     'public/scripts.min.js',
     'public/styles.min.css',
