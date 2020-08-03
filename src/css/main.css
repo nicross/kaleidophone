@@ -11,6 +11,10 @@ html, body {
   width: 100%;
 }
 
+:focus {
+  outline: none;
+}
+
 @media (max-width: 20rem) {
   :root {
     font-size: 0.5rem;
