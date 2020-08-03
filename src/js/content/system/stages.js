@@ -37,13 +37,15 @@ content.system.stages = (() => {
         floor = content.system.stages.stage.create(floorZ)
       }
 
-      if (ceiling.z != ceilingZ) {
-        ceiling.destroy()
+      if (ceiling.z < ceilingZ) {
+        floor.destroy()
+        floor = ceiling
         ceiling = content.system.stages.stage.create(ceilingZ)
       }
 
-      if (floor.z != floorZ) {
-        floor.destroy()
+      if (floor.z > floorZ) {
+        ceiling.destroy()
+        ceiling = floor
         floor = content.system.stages.stage.create(floorZ)
       }
 
