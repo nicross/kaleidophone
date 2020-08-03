@@ -85,11 +85,14 @@ app.screen.game.canvas = (() => {
         y = Math.round(distance * patternHeight)
 
       const d = Math.sqrt(x ** 2 + y ** 2),
-        halfSize = Math.ceil(size / 2),
+        halfSize = size / 2,
         ratio = engine.utility.wrapAlternate(d, 0, patternHypotnuse) / patternHypotnuse
 
-      y -= Math.round(angle * patternHypotnuse * ratio)
-      x += Math.round(angle * patternHypotnuse * ratio)
+      y -= angle * patternHypotnuse * ratio
+      x += angle * patternHypotnuse * ratio
+
+      x -= halfSize
+      y -= halfSize
 
       x = engine.utility.clamp(x, -halfSize, patternWidth - halfSize)
       y = engine.utility.clamp(y, -halfSize, patternHeight - halfSize)
@@ -105,7 +108,7 @@ app.screen.game.canvas = (() => {
     for (const prop of analysis) {
       patternContext.fillStyle = `hsla(${prop.frequency * 360}, 100%, 50%, ${prop.gain})`
 
-      const size = Math.round(Math.abs(prop.index - content.const.stagePropCount))
+      const size = Math.abs(prop.index - content.const.stagePropCount)
       const {x, y} = calculate(prop.distance, prop.angle, size)
 
       patternContext.fillRect(x, y, size, size)
