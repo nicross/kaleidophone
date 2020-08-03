@@ -2,8 +2,8 @@ app.screen.game.canvas = (() => {
   const height = 64,
     patternCanvas = document.createElement('canvas'),
     patternContext = patternCanvas.getContext('2d'),
-    patternHeight = 44,
-    patternWidth = 44,
+    patternHeight = 32,
+    patternWidth = 32,
     width = 64
 
   const patternData = patternContext.createImageData(patternWidth, patternHeight)
@@ -25,6 +25,10 @@ app.screen.game.canvas = (() => {
   }
 
   function analyzeStage(stage) {
+    if (!stage) {
+      return []
+    }
+
     const gain = stage.bus.gain.value,
       maxFrequency = engine.utility.midiToFrequency(24),
       minFrequency = engine.utility.midiToFrequency(96)
@@ -37,129 +41,35 @@ app.screen.game.canvas = (() => {
   }
 
   function paintPattern() {
-    context.clearRect(0, 0, width, height)
+    const halfHeight = height / 2,
+      halfWidth = width / 2,
+      turns = 4
 
-    // TODO: Scale and rotations
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 0, y: 31},
-        {x: 0, y: 0},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 0, y: 0},
-        {x: 32, y: 0},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 32, y: 0},
-        {x: 63, y: 0},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 63, y: 0},
-        {x: 63, y: 31},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 63, y: 31},
-        {x: 63, y: 62},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 63, y: 62},
-        {x: 32, y: 63},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 32, y: 63},
-        {x: 0, y: 63},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-
-    paintPatternPolygon({
-      points: [
-        {x: 32, y: 31},
-        {x: 0, y: 63},
-        {x: 0, y: 31},
-      ],
-      rotate: 0,
-      scaleX: 0,
-      scaleY: 0,
-    })
-  }
-
-  function paintPatternPolygon({
-    points = [],
-    rotate = 0,
-    scaleX = 1,
-    scaleY = 1,
-  } = {}) {
-    patternContext.save()
-
-    patternContext.rotate(rotate)
-    patternContext.scale(scaleX, scaleY)
-
-    const pattern = context.createPattern(patternCanvas, 'no-repeat')
-
-    context.fillStyle = pattern
-
-    context.beginPath()
-    context.moveTo(points[0].x, points[0].y)
-
-    for (const point of points) {
-      context.lineTo(point.x, point.y)
+    const paste = () => {
+      context.drawImage(patternCanvas, 0, 0)
+      context.translate(halfWidth, halfWidth)
+      context.rotate(2 * Math.PI / turns)
+      context.translate(-halfWidth, -halfHeight)
     }
 
-    context.lineTo(points[0].x, points[0].y)
-    context.fill()
+    context.clearRect(0, 0, width, height)
 
-    patternContext.restore()
+    for (let i = 0; i < turns; i += 1) {
+      paste()
+    }
   }
 
-  function updatePattern(analysis) {
-    patternContext.clearRect(0, 0, patternWidth, patternHeight)
+  function updatePattern() {
+    const analysis = analyze()
+
+    const test = patternContext.createLinearGradient(0, 0, patternWidth, patternHeight)
+
+    test.addColorStop(0, '#FF0000')
+    test.addColorStop(0.5, '#FFFF00')
+    test.addColorStop(1, '#0000FF')
+
+    patternContext.fillStyle = test
+    patternContext.fillRect(0, 0, patternWidth, patternHeight)
 
     // TODO: Visualize analysis as colored regular polygons within patternCanvas
   }
@@ -172,11 +82,8 @@ app.screen.game.canvas = (() => {
       return this
     },
     update: function () {
-      const analysis = analyze()
-
-      updatePattern(analysis)
+      updatePattern()
       paintPattern()
-
       return this
     },
   }
