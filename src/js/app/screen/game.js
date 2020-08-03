@@ -104,7 +104,7 @@ app.screen.game = (() => {
     }
 
     engine.movement.update({
-      rotate: autoRotate ? 1 : game.rotate,
+      rotate: autoRotate ? -1 : game.rotate,
       translate: {
         radius: 0,
         theta: 0,
