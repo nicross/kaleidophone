@@ -106,9 +106,9 @@ app.screen.game.canvas = (() => {
     patternContext.clearRect(0, 0, patternWidth, patternHeight)
 
     for (const prop of analysis) {
-      patternContext.fillStyle = `hsla(${prop.frequency * 360}, 100%, 50%, ${prop.gain})`
+      patternContext.fillStyle = `hsl(${prop.frequency * 360}, 100%, 50%)`
 
-      const size = Math.abs(prop.index - content.const.stagePropCount)
+      const size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
       const {x, y} = calculate(prop.distance, prop.angle, size)
 
       patternContext.fillRect(x, y, size, size)
