@@ -12,7 +12,7 @@ app.screen.game.canvas = (() => {
   let canvas,
     context
 
-  patternBackground.addColorStop(0, '#111111')
+  patternBackground.addColorStop(0, '#080808')
   patternBackground.addColorStop(1, '#000000')
 
   patternCanvas.height = patternHeight
@@ -114,6 +114,8 @@ app.screen.game.canvas = (() => {
     patternContext.fillStyle = patternBackground
     patternContext.fillRect(0, 0, patternWidth, patternHeight)
 
+    updatePatternGrain()
+
     for (const prop of analysis) {
       const hue = engine.utility.lerpExp(0, 300, prop.frequency, 2),
         sheen = 5 + (Math.abs(Math.sin(prop.mod * 2 * Math.PI * frame / 60)) * 10),
@@ -128,6 +130,19 @@ app.screen.game.canvas = (() => {
       patternContext.fillStyle = gradient
       patternContext.fillRect(x, y, size, size)
     }
+  }
+
+  function updatePatternGrain() {
+    const imageData = patternContext.getImageData(0, 0, patternWidth, patternHeight)
+    const data = imageData.data
+
+    for (let i = 0; i < data.length; i += 4) {
+      data[i] += engine.utility.random.integer(0, 3)
+      data[i+1] += engine.utility.random.integer(0, 3)
+      data[i+2] += engine.utility.random.integer(0, 3)
+    }
+
+    patternContext.putImageData(imageData, 0, 0)
   }
 
   return {
