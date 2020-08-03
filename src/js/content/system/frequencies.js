@@ -112,7 +112,14 @@ content.system.frequencies = (() => {
     root: () => root,
     sub: (z) => {
       const chord = getChord(z)
-      return engine.utility.toSubFrequency(chord[0], 80)
+
+      let frequency = chord[0]
+
+      if (frequency < 40) {
+        frequency *= 2
+      }
+
+      return engine.utility.toSubFrequency(frequency, 80)
     },
   }
 })()
