@@ -12,7 +12,7 @@ app.screen.game.canvas = (() => {
   let canvas,
     context
 
-  patternBackground.addColorStop(0, '#181818')
+  patternBackground.addColorStop(0, '#111111')
   patternBackground.addColorStop(1, '#000000')
 
   patternCanvas.height = patternHeight
@@ -34,9 +34,12 @@ app.screen.game.canvas = (() => {
     }
 
     const gain = stage.gain,
-      maxFrequency = engine.utility.midiToFrequency(84),
-      minFrequency = engine.utility.midiToFrequency(24),
-      position = engine.position.get()
+      position = engine.position.get(),
+      root = content.system.frequencies.root()
+
+    // XXX: See frequencies system for magic numbers
+    const maxFrequency = engine.utility.midiToFrequency(root + 48 + 17),
+      minFrequency = engine.utility.midiToFrequency(root + 24 - 9)
 
     return stage.props.map((prop, index) => ({
       angle: Math.sin(prop.atan2 - position.angle),
@@ -112,7 +115,7 @@ app.screen.game.canvas = (() => {
     patternContext.fillRect(0, 0, patternWidth, patternHeight)
 
     for (const prop of analysis) {
-      const hue = engine.utility.lerpExp(0, 270, prop.frequency, 2),
+      const hue = engine.utility.lerpExp(0, 300, prop.frequency, 2),
         sheen = 5 + (Math.abs(Math.sin(prop.mod * 2 * Math.PI * frame / 60)) * 10),
         size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
 
