@@ -34,14 +34,14 @@ app.screen.game.canvas = (() => {
     }
 
     const gain = stage.gain,
-      maxFrequency = engine.utility.midiToFrequency(24),
-      minFrequency = engine.utility.midiToFrequency(96),
+      maxFrequency = engine.utility.midiToFrequency(84),
+      minFrequency = engine.utility.midiToFrequency(24),
       position = engine.position.get()
 
     return stage.props.map((prop, index) => ({
       angle: Math.sin(prop.atan2 - position.angle),
       distance: engine.utility.scale(prop.distance, content.const.stageMinRadius, content.const.stageMaxRadius, 1, 0),
-      frequency: engine.utility.clamp(engine.utility.scale(prop.synth.param.frequency.value, minFrequency, maxFrequency, 0, 1) ** 2, 0, 1),
+      frequency: engine.utility.clamp(engine.utility.scale(prop.synth.param.frequency.value, minFrequency, maxFrequency, 0, 1), 0, 1),
       gain,
       index,
       z: stage.z,
@@ -115,8 +115,8 @@ app.screen.game.canvas = (() => {
       const {x, y} = calculate(prop.distance, prop.angle, size)
 
       const gradient = patternContext.createLinearGradient(x - size/2, y - size/2, x + size/2, y + size/2)
-      gradient.addColorStop(0, `hsl(${prop.frequency * 360}, 100%, 33.33%)`)
-      gradient.addColorStop(1, `hsl(${prop.frequency * 360}, 100%, 66.66%)`)
+      gradient.addColorStop(1, `hsl(${engine.utility.lerpExp(0, 270, prop.frequency, 2)}, 100%, 66.66%)`)
+      gradient.addColorStop(0, `hsl(${engine.utility.lerpExp(0, 270, prop.frequency, 2)}, 100%, 33.33%)`)
 
       patternContext.fillStyle = gradient
       patternContext.fillRect(x, y, size, size)
