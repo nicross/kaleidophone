@@ -44,8 +44,32 @@ app.screen.game.canvas = (() => {
       frequency: engine.utility.clamp(engine.utility.scale(prop.synth.param.frequency.value, minFrequency, maxFrequency, 0, 1), 0, 1),
       gain,
       index,
+      mod: prop.synth.param.mod.frequency.value,
       z: stage.z,
     }))
+  }
+
+  function calculatePatternRect(distance, angle, size) {
+    let x = Math.round(distance * patternWidth),
+      y = Math.round(distance * patternHeight)
+
+    const d = Math.sqrt(x ** 2 + y ** 2),
+      halfSize = size / 2,
+      ratio = engine.utility.wrapAlternate(d, 0, patternHypotnuse) / patternHypotnuse
+
+    y -= angle * patternHypotnuse * ratio
+    x += angle * patternHypotnuse * ratio
+
+    x -= halfSize
+    y -= halfSize
+
+    x = engine.utility.clamp(x, -halfSize, patternWidth - halfSize)
+    y = engine.utility.clamp(y, -halfSize, patternHeight - halfSize)
+
+    return {
+      x,
+      y,
+    }
   }
 
   function paintPattern() {
@@ -81,42 +105,22 @@ app.screen.game.canvas = (() => {
     context.translate(-halfWidth, -halfHeight)
   }
 
-  function updatePattern() {
+  function updatePattern(frame) {
     const analysis = analyze()
-
-    const calculate = (distance, angle, size) => {
-      let x = Math.round(distance * patternWidth),
-        y = Math.round(distance * patternHeight)
-
-      const d = Math.sqrt(x ** 2 + y ** 2),
-        halfSize = size / 2,
-        ratio = engine.utility.wrapAlternate(d, 0, patternHypotnuse) / patternHypotnuse
-
-      y -= angle * patternHypotnuse * ratio
-      x += angle * patternHypotnuse * ratio
-
-      x -= halfSize
-      y -= halfSize
-
-      x = engine.utility.clamp(x, -halfSize, patternWidth - halfSize)
-      y = engine.utility.clamp(y, -halfSize, patternHeight - halfSize)
-
-      return {
-        x,
-        y,
-      }
-    }
 
     patternContext.fillStyle = patternBackground
     patternContext.fillRect(0, 0, patternWidth, patternHeight)
 
     for (const prop of analysis) {
-      const size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
-      const {x, y} = calculate(prop.distance, prop.angle, size)
+      const hue = engine.utility.lerpExp(0, 270, prop.frequency, 2),
+        sheen = 5 + (Math.abs(Math.sin(prop.mod * 2 * Math.PI * frame / 60)) * 10),
+        size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
 
-      const gradient = patternContext.createLinearGradient(x - size/2, y - size/2, x + size/2, y + size/2)
-      gradient.addColorStop(1, `hsl(${engine.utility.lerpExp(0, 270, prop.frequency, 2)}, 100%, 66.66%)`)
-      gradient.addColorStop(0, `hsl(${engine.utility.lerpExp(0, 270, prop.frequency, 2)}, 100%, 33.33%)`)
+      const {x, y} = calculatePatternRect(prop.distance, prop.angle, size)
+
+      const gradient = patternContext.createLinearGradient(x, y, x + size, y + size)
+      gradient.addColorStop(0, `hsl(${hue}, 100%, ${50 - sheen}%)`)
+      gradient.addColorStop(1, `hsl(${hue}, 100%, ${50 + sheen}%)`)
 
       patternContext.fillStyle = gradient
       patternContext.fillRect(x, y, size, size)
@@ -130,8 +134,8 @@ app.screen.game.canvas = (() => {
 
       return this
     },
-    update: function () {
-      updatePattern()
+    update: function ({frame}) {
+      updatePattern(frame)
       paintPattern()
       return this
     },

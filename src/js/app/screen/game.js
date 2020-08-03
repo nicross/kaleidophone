@@ -18,8 +18,8 @@ app.screen.game = (() => {
     engine.loop.off('frame', onFrame)
   }
 
-  function onFrame() {
-    app.screen.game.canvas.update()
+  function onFrame(e) {
+    app.screen.game.canvas.update(e)
   }
 
   return {
