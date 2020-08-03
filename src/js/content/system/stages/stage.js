@@ -12,6 +12,7 @@ content.system.stages.stage.prototype = {
 
     this.bus = content.system.kaleido.createSend()
     this.bus.gain.value = engine.const.zeroGain
+    this.gain = engine.const.zeroGain
 
     this.generate()
 
@@ -61,6 +62,7 @@ content.system.stages.stage.prototype = {
     })
   },
   setMix: function (gain) {
+    this.gain = gain
     engine.audio.ramp.linear(this.bus.gain, gain, engine.loop.delta())
     return this
   },
