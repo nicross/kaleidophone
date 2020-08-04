@@ -9,6 +9,7 @@
 }
   .c-screen--canvas {
     height: 100vmin;
+    image-rendering: crisp-edges; /* XXX: Firefox fallback */
     image-rendering: pixelated;
     width: 100vmin;
   }
