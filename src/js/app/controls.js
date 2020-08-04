@@ -37,6 +37,7 @@ app.controls = (() => {
       const values = {
         ...this.gamepad.ui(),
         ...this.keyboard.ui(),
+        ...this.touch.ui(),
       }
 
       uiDelta = {}
