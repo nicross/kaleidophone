@@ -1,12 +1,17 @@
 # Kaleidophone
-A relaxing generative audio toy submitted to [LOWREZJAM 2020](https://itch.io/jam/lowrezjam-2020).
+A relaxing generative audio toy submitted to [LOWREZJAM 2020](https://itch.io/jam/lowrezjam-2020) and [Brackeys Jam 2020.2](https://itch.io/jam/brackeys-4).
 Developed with [syngen](https://github.com/nicross/syngen).
 
 ## How to play
-Interact to begin.
 Explore ambient soundscapes by manipulating time.
-Play, scrub, or freeze time with a variety of control configurations.
-Randomize the seed or reload to hear a new song.
+Rewind, scrub, freeze, or adjust playback speed.
+Enjoy unique songs each play.
+
+Interact to begin.
+Move forward and backward to scrub through time.
+Turn to pan and adjust the kaleidoscopic visualizer.
+Play and rewind at various speeds.
+Randomize the song at any time.
 
 ### Keyboard controls
 | Action | Key 1 | Key 2 | Key 3 |
