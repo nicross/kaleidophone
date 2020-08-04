@@ -35,11 +35,11 @@ Randomize the song at any time.
 | Rewind | D-Pad Left | Left Bumper |
 | Increase Speed | D-Pad Up | |
 | Decrease Speed | D-Pad Down | |
-| Scrub Forward | Right Trigger | Left Stick |
-| Scrub Backward | Left Trigger | Left Stick |
-| Turning | Right Stick | |
-| Toggle Rotation | Press Right Stick | |
-| Randomize Seed | Select | |
+| Scrub Forward | Any Stick | Right Trigger |
+| Scrub Backward | Any Stick | Left Trigger |
+| Turning | Any Stick | |
+| Toggle Rotation | A | |
+| Randomize Seed | X | Select |
 
 ### Touch controls
 The visualizer has been divided into a 3x3 grid of touch areas:
