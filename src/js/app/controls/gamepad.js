@@ -24,10 +24,16 @@ app.controls.gamepad = {
         continue
       }
 
+      const hasLeftStick = 0 in gamepad.axes && 1 in gamepad.axes
+
       if (2 in gamepad.axes && 3 in gamepad.axes) {
         rotate += this.deadzone(gamepad.axes[2])
-      } else {
+      } else if (hasLeftStick) {
         rotate += this.deadzone(gamepad.axes[0])
+      }
+
+      if (hasLeftStick) {
+        z = this.deadzone(gamepad.axes[1])
       }
 
       if (6 in gamepad.buttons) {
