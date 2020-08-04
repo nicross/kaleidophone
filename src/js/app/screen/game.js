@@ -24,24 +24,20 @@ app.screen.game = (() => {
   function calculateZ(inputZ = 0) {
     const speed = calculateSpeed()
 
+    if (inputZ) {
+      return inputZ * speed
+    }
+
     if (autoMove) {
       return autoMove * speed
     }
 
-    return inputZ * speed
+    return 0
   }
 
   function handleControls({delta}) {
     const game = app.controls.game(),
       ui = app.controls.ui()
-
-    if (game.rotate) {
-      autoRotate = false
-    }
-
-    if (game.z) {
-      autoMove = 0
-    }
 
     if (ui.play) {
       autoMove = autoMove != 1 ? 1 : 0
@@ -104,7 +100,7 @@ app.screen.game = (() => {
     }
 
     engine.movement.update({
-      rotate: autoRotate ? -1 : game.rotate,
+      rotate: game.rotate || (autoRotate ? 1 : 0),
       translate: {
         radius: 0,
         theta: 0,
