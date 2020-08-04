@@ -55,6 +55,13 @@ app.controls.touch = (() => {
       return 'toggleRotate'
     }
 
+    if (
+         engine.utility.between(x, 0, width * 1/3)
+      && engine.utility.between(y, 0, height * 1/3)
+    ) {
+      return 'freeze'
+    }
+
     return 'unknown'
   }
 

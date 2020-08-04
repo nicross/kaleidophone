@@ -105,6 +105,10 @@ app.controls.gamepad = {
       state.toggleRotate = true
     }
 
+    if (buttons[1] || buttons[9]) {
+      state.freeze = true
+    }
+
     return state
   },
 }

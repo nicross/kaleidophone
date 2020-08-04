@@ -51,6 +51,11 @@ app.screen.game = (() => {
       autoRotate = !autoRotate
     }
 
+    if (ui.freeze) {
+      autoMove = 0
+      autoRotate = false
+    }
+
     if (ui.decreaseSpeed) {
       speedPreset = Math.max(speedPreset - 1, 0)
     }

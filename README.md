@@ -27,6 +27,7 @@ Randomize the song at any time.
 | Turn Right | D | Right Arrow | Numpad 6 |
 | Toggle Rotation | F | End | Numpad 0 |
 | Randomize Seed | R | Home | Numpad * |
+| Freeze | Z | Delete | Numpad . |
 
 ### Gamepad controls
 | Action | Button 1 | Button 2 |
@@ -40,6 +41,7 @@ Randomize the song at any time.
 | Turning | Any Stick | |
 | Toggle Rotation | A | |
 | Randomize Seed | X | Select |
+| Freeze | B | Start |
 
 ### Touch controls
 The visualizer has been divided into a 3x3 grid of touch areas:
@@ -52,6 +54,7 @@ The visualizer has been divided into a 3x3 grid of touch areas:
 | Decrease Speed | Bottom center |
 | Toggle Rotation | Bottom left |
 | Randomize Seed | Center |
+| Freeze | Top left |
 
 ## Development
 To get started, please  use [npm](https://nodejs.org) to install the required dependencies:

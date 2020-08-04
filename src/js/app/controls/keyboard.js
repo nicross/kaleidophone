@@ -6,6 +6,7 @@ app.controls.keyboard = (() => {
     ArrowLeft: false,
     ArrowRight: false,
     ArrowUp: false,
+    Delete: false,
     Digit0: false,
     Digit1: false,
     Digit2: false,
@@ -28,6 +29,7 @@ app.controls.keyboard = (() => {
     KeyR: false,
     KeyS: false,
     KeyW: false,
+    KeyZ: false,
     Minus: false,
     Numpad0: false,
     Numpad4: false,
@@ -37,8 +39,9 @@ app.controls.keyboard = (() => {
     Numpad8: false,
     Numpad9: false,
     NumpadAdd: false,
-    NumpadSubtract: false,
+    NumpadDecimal: false,
     NumpadMultiply: false,
+    NumpadSubtract: false,
     PageDown: false,
     PageUp: false,
     Space: false,
@@ -168,6 +171,10 @@ app.controls.keyboard = (() => {
 
       if (controls.End || controls.KeyF || controls.Numpad0) {
         state.toggleRotate = true
+      }
+
+      if (controls.Delete || controls.KeyZ || controls.NumpadDecimal) {
+        state.freeze = true
       }
 
       return state
