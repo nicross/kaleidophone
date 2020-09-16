@@ -112,7 +112,7 @@ app.screen.game.canvas = (() => {
     context.translate(-halfWidth, -halfHeight)
   }
 
-  function updatePattern(frame) {
+  function updatePattern(time) {
     const analysis = analyze()
 
     patternContext.fillStyle = patternBackground
@@ -122,7 +122,7 @@ app.screen.game.canvas = (() => {
 
     for (const prop of analysis) {
       const hue = engine.utility.lerpExp(0, 300, prop.frequency, 2),
-        sheen = 5 + (Math.abs(Math.sin(prop.mod * 2 * Math.PI * frame / 60)) * 10),
+        sheen = 5 + (Math.abs(Math.sin(prop.mod * Math.PI * time)) * 10),
         size = Math.abs(prop.index - content.const.stagePropCount) * prop.gain
 
       const {x, y} = calculatePatternRect(prop.distance, prop.angle, size)
@@ -150,8 +150,8 @@ app.screen.game.canvas = (() => {
   }
 
   return {
-    update: function ({frame}) {
-      updatePattern(frame)
+    update: function ({time}) {
+      updatePattern(time)
       paintPattern()
       return this
     },
