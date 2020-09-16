@@ -53,8 +53,8 @@ app.screen.splash.canvas = (() => {
     })
   }
 
-  function paintInteractSprite(frame) {
-    const opacity = 0.5 + Math.abs(Math.sin(interactFrequency * Math.PI * frame / 60) / 2),
+  function paintInteractSprite(time) {
+    const opacity = 0.5 + Math.abs(Math.sin(interactFrequency * Math.PI * time) / 2),
       sprite = cloneImageData(interactSprite)
 
     const data = sprite.data
@@ -66,8 +66,8 @@ app.screen.splash.canvas = (() => {
     context.putImageData(sprite, 16, 53)
   }
 
-  function paintLogoSprite(frame) {
-    const rotation = logoFrequency * frame / 60,
+  function paintLogoSprite(time) {
+    const rotation = logoFrequency * time,
       sprite = cloneImageData(logoSprite)
 
     const data = sprite.data
@@ -88,15 +88,15 @@ app.screen.splash.canvas = (() => {
   }
 
   return {
-    update: function ({frame}) {
+    update: function ({time}) {
       context.clearRect(0, 0, width, height)
 
       if (interactSprite) {
-        paintInteractSprite(frame)
+        paintInteractSprite(time)
       }
 
       if (logoSprite) {
-        paintLogoSprite(frame)
+        paintLogoSprite(time)
       }
 
       return this
