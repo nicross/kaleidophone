@@ -197,6 +197,14 @@ engine.utility.quaternion.prototype = {
   right: function () {
     return engine.utility.vector3d.unitY().rotateQuaternion(this)
   },
+  scale: function (scalar = 0) {
+    return engine.utility.quaternion.create({
+      w: this.w * scalar,
+      x: this.x * scalar,
+      y: this.y * scalar,
+      z: this.z * scalar,
+    })
+  },
   set: function ({
     w = 0,
     x = 0,
@@ -227,7 +235,7 @@ engine.utility.quaternion.prototype = {
   },
 }
 
-engine.utility.quaternion.identity = function (...args) {
+engine.utility.quaternion.identity = function () {
   return Object.create(this.prototype).construct({
     w: 1,
   })

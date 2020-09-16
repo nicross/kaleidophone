@@ -7,7 +7,8 @@ engine.loop = (() => {
     idleRequest,
     isPaused = false,
     isRunning = false,
-    lastFrame
+    lastFrame = 0,
+    time = 0
 
   function cancelFrame() {
     cancelAnimationFrame(activeRequest)
@@ -17,7 +18,7 @@ engine.loop = (() => {
   function doActiveFrame() {
     const now = performance.now()
 
-    delta = (lastFrame ? now - lastFrame : 0) / 1000
+    delta = (now - lastFrame) / 1000
     lastFrame = now
 
     frame()
@@ -37,10 +38,12 @@ engine.loop = (() => {
 
   function frame() {
     frameCount += 1
+    time += delta
 
     pubsub.emit('frame', {
       delta,
       frame: frameCount,
+      time,
       paused: isPaused,
     })
 
@@ -48,10 +51,6 @@ engine.loop = (() => {
   }
 
   function scheduleFrame() {
-    if (!isRunning) {
-      return
-    }
-
     if (document.hidden) {
       idleRequest = setTimeout(doIdleFrame, getNextIdleDelay())
     } else {
@@ -60,7 +59,10 @@ engine.loop = (() => {
   }
 
   document.addEventListener('visibilitychange', () => {
-    lastFrame = null
+    if (!isRunning) {
+      return
+    }
+
     cancelFrame()
     scheduleFrame()
   })
@@ -95,9 +97,8 @@ engine.loop = (() => {
         return this
       }
 
-
       isRunning = true
-      lastFrame = null
+      lastFrame = performance.now()
 
       scheduleFrame()
       pubsub.emit('start')
@@ -114,11 +115,13 @@ engine.loop = (() => {
       delta = 0
       frameCount = 0
       isRunning = false
-      lastFrame = null
+      lastFrame = 0
+      time = 0
 
       pubsub.emit('stop')
 
       return this
-    }
+    },
+    time: () => time,
   }, pubsub)
 })()

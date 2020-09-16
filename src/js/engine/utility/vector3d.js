@@ -159,19 +159,19 @@ engine.utility.vector3d.prototype = {
   },
 }
 
-engine.utility.vector3d.unitX = function (...args) {
+engine.utility.vector3d.unitX = function () {
   return Object.create(this.prototype).construct({
     x: 1,
   })
 }
 
-engine.utility.vector3d.unitY = function (...args) {
+engine.utility.vector3d.unitY = function () {
   return Object.create(this.prototype).construct({
     y: 1,
   })
 }
 
-engine.utility.vector3d.unitZ = function (...args) {
+engine.utility.vector3d.unitZ = function () {
   return Object.create(this.prototype).construct({
     z: 1,
   })
