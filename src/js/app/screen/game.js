@@ -112,14 +112,7 @@ app.screen.game = (() => {
       speedPreset = 9
     }
 
-    content.system.movement.update({
-      rotate: game.rotate || (autoRotate ? 1 : 0),
-      translate: {
-        radius: 0,
-        theta: 0,
-      },
-    })
-
+    handleRotate(game.rotate)
     content.system.time.add(calculateTime(game.z) * delta)
 
     if (ui.randomizeSeed) {
@@ -127,6 +120,14 @@ app.screen.game = (() => {
         seed: Math.random(),
       })
     }
+  }
+
+  function handleRotate(inputRotate) {
+    const amount = content.const.rotationSpeed * (autoRotate ? 1 : inputRotate || 0)
+
+    engine.position.setAngularVelocityEuler({
+      yaw: amount,
+    })
   }
 
   function onEnter() {
