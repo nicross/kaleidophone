@@ -53,12 +53,15 @@ engine.input.mouse = (() => {
       return this
     },
     update: function () {
-      state.moveX = 0
-      state.moveY = 0
+      // XXX: Reset between frames
+      setTimeout(() => {
+        state.moveX = 0
+        state.moveY = 0
 
-      state.wheelX = 0
-      state.wheelY = 0
-      state.wheelZ = 0
+        state.wheelX = 0
+        state.wheelY = 0
+        state.wheelZ = 0
+      })
 
       return this
     },
