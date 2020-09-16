@@ -1,5 +1,3 @@
-'use strict'
-
 engine.utility.timing = {}
 
 engine.utility.timing.cancelablePromise = (duration) => {

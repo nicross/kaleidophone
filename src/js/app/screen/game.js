@@ -104,7 +104,7 @@ app.screen.game = (() => {
       speedPreset = 9
     }
 
-    engine.movement.update({
+    content.system.movement.update({
       rotate: game.rotate || (autoRotate ? 1 : 0),
       translate: {
         radius: 0,

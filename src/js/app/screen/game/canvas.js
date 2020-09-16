@@ -34,7 +34,6 @@ app.screen.game.canvas = (() => {
     }
 
     const gain = stage.gain,
-      position = engine.position.get(),
       root = content.system.frequencies.root()
 
     // XXX: See frequencies system for magic numbers
@@ -42,7 +41,7 @@ app.screen.game.canvas = (() => {
       minFrequency = engine.utility.midiToFrequency(root + 24 - 9)
 
     return stage.props.map((prop, index) => ({
-      angle: Math.sin(prop.atan2 - position.angle),
+      angle: Math.sin(prop.relative.euler().yaw),
       distance: engine.utility.scale(prop.distance, content.const.stageMinRadius, content.const.stageMaxRadius, 1, 0),
       frequency: engine.utility.clamp(engine.utility.scale(prop.synth.param.frequency.value, minFrequency, maxFrequency, 0, 1), 0, 1),
       gain,

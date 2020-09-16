@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.circuit = {}
 
 // Multiplies input by -scale

@@ -1,5 +1,3 @@
-'use strict'
-
 engine.utility.perlin3d = {}
 
 engine.utility.perlin3d.create = function (...args) {
@@ -99,6 +97,7 @@ engine.utility.perlin3d.prototype = {
 
     return this
   },
+  range: Math.sqrt(3/4),
   reset: function () {
     if (this.pruneRequest) {
       cancelIdleCallback(this.pruneRequest)
@@ -108,6 +107,10 @@ engine.utility.perlin3d.prototype = {
 
     return this
   },
+  smooth: function (value) {
+    // 6x^5 - 15x^4 + 10x^3
+    return (value ** 3) * (value * ((value * 6) - 15) + 10)
+  },
   value: function (x, y, z) {
     const x0 = Math.floor(x),
       x1 = x0 + 1,
@@ -116,9 +119,9 @@ engine.utility.perlin3d.prototype = {
       z0 = Math.floor(z),
       z1 = z0 + 1
 
-    const dx = x - x0,
-      dy = y - y0,
-      dz = z - z0
+    const dx = this.smooth(x - x0),
+      dy = this.smooth(y - y0),
+      dz = this.smooth(z - z0)
 
     const value = engine.utility.lerp(
       engine.utility.lerp(
@@ -150,6 +153,6 @@ engine.utility.perlin3d.prototype = {
       dz
     )
 
-    return engine.utility.scale(value, -Math.sqrt(3/4), Math.sqrt(3/4), 0, 1)
+    return engine.utility.scale(value, -this.range, this.range, 0, 1)
   },
 }

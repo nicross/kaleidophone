@@ -1,5 +1,3 @@
-'use strict'
-
 // SEE: https://www.soundonsound.com/techniques/formant-synthesis
 // SEE: https://www.researchgate.net/figure/Target-and-reproduced-vowel-formant-frequencies_tbl1_2561802
 // SEE: https://www.reasonstudios.com/blog/thor-demystified-17-filters-pt-5-formant-filters

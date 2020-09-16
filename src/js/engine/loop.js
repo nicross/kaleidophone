@@ -1,5 +1,3 @@
-'use strict'
-
 engine.loop = (() => {
   const pubsub = engine.utility.pubsub.create()
 

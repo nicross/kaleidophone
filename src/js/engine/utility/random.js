@@ -1,5 +1,3 @@
-'use strict'
-
 engine.utility.random = {}
 
 engine.utility.random.float = (min = 0, max = 1) => {

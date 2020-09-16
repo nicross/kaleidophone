@@ -1,5 +1,3 @@
-'use strict'
-
 // SEE: https://stackoverflow.com/a/47593316
 // SEE: https://github.com/micro-js/srand
 // SEE: https://en.wikipedia.org/wiki/Linear_congruential_generator
@@ -11,7 +9,7 @@ engine.utility.srand = (...seeds) => {
 
   let seed = engine.utility.hash(
     [
-      engine.const.seed,
+      engine.seed.get(),
       ...seeds,
     ].join(engine.const.seedSeparator)
   )

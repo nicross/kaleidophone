@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.effect = {}
 
 engine.audio.effect.createDubDelay = function ({

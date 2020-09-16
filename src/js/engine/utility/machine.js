@@ -1,9 +1,7 @@
-'use strict'
-
 engine.utility.machine = {}
 
 engine.utility.machine.create = function (...args) {
-  return Object.create(this.prototype).create(...args)
+  return Object.create(this.prototype).construct(...args)
 }
 
 engine.utility.machine.is = function (x) {
@@ -39,7 +37,7 @@ engine.utility.machine.prototype = {
 
     return this
   },
-  create: function ({state = 'none', transition = {}} = {}) {
+  construct: function ({state = 'none', transition = {}} = {}) {
     this.state = state
     this.transition = {...transition}
 

@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.buffer.impulse.medium = (() => {
   const context = engine.audio.context()
 

@@ -1,31 +1,27 @@
-'use strict'
-
-engine.utility = {}
-
 engine.utility.addInterval = (frequency, interval) => frequency * (2 ** interval)
 
 engine.utility.between = (value, min, max) => value >= min && value <= max
 
-engine.utility.centroid = (points = []) => {
+engine.utility.centroid = (vectors = []) => {
   // NOTE: Returns origin if empty set
-  if (!points.length) {
-    return {
-      x: 0,
-      y: 0,
-    }
+  if (!vectors.length) {
+    return engine.utility.vector3d.create()
   }
 
   let xSum = 0,
-    ySum = 0
+    ySum = 0,
+    zSum = 0
 
-  for (const point of points) {
-    xSum += point.x
-    ySum += point.y
+  for (const vector of vectors) {
+    xSum += vector.x || 0
+    ySum += vector.y || 0
+    zSum += vector.z || 0
   }
 
   return {
-    x: xSum / points.length,
-    y: ySum / points.length,
+    x: xSum / vectors.length,
+    y: ySum / vectors.length,
+    z: zSum / vectors.length,
   }
 }
 
@@ -128,18 +124,17 @@ engine.utility.degreesToRadians = (degrees) => degrees * Math.PI / 180
 
 engine.utility.detune = (f, cents = 0) => f * (2 ** (cents / 1200))
 
-engine.utility.distance = (x1, y1, x2, y2) => Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2))
+engine.utility.distance = (a, b) => Math.sqrt(engine.utility.distance2(a, b))
 
-engine.utility.distanceOrigin = (x, y) => Math.sqrt(x ** 2 + y ** 2)
-
-engine.utility.distanceRadius = (x1, y1, x2, y2, radius = 0) => {
-  return Math.max(0, engine.utility.distance(x1, y1, x2, y2) - radius)
-}
-
-engine.utility.distanceTheta = (x1, y1, x2, y2, theta) => {
-  // Is (x1, y1) ahead (positive) or behind (negative) of (x2, y2) facing theta?
-  return engine.utility.rotatePoint(x1 - x2, y1 - y2, theta).x
-}
+engine.utility.distance2 = ({
+  x: x1 = 0,
+  y: y1 = 0,
+  z: z1 = 0,
+} = {}, {
+  x: x2 = 0,
+  y: y2 = 0,
+  z: z2 = 0,
+} = {}) => ((x2 - x1) ** 2) + ((y2 - y1) ** 2) + ((z2 - z1) ** 2)
 
 engine.utility.distanceToPower = (distance) => {
   // XXX: One is added so all distances yield sensible values
@@ -150,7 +145,7 @@ engine.utility.distanceToPower = (distance) => {
 
   if (engine.const.distancePowerHorizon) {
     // XXX: One is added because of above
-    const distancePowerHorizon = engine.const.streamerRadius + 1
+    const distancePowerHorizon = engine.streamer.getRadius() + 1
     horizonPower = Math.max(0, distancePowerHorizon - distance) / distancePowerHorizon
     horizonPower **= engine.const.distancePowerHorizonExponent
   }
@@ -199,11 +194,6 @@ engine.utility.intersects = (a, b) => {
     || between(b.y, a.y, a.y + a.height)
 
   return xOverlap && yOverlap
-}
-
-engine.utility.isWithinRadius = (point = {}, radius = 0) => {
-  const {x: dx, y: dy} = engine.utility.subtractRadius(point, radius)
-  return dx == 0 && dy == 0
 }
 
 engine.utility.lerp = (min, max, value) => (min * (1 - value)) + (max * value)
@@ -319,57 +309,9 @@ engine.utility.shuffle = (array, random = Math.random) => {
 
 engine.utility.sign = (value) => value >= 0 ? 1 : -1
 
-engine.utility.subtractRadius = ({x = 0, y = 0} = {}, radius = 0) => {
-  // SEE: https://math.stackexchange.com/a/1630886
-  if (radius == 0) {
-    return {
-      x,
-      y,
-    }
-  }
-
-  const d = Math.sqrt(x ** 2 + y ** 2)
-
-  if (d <= radius) {
-    return {
-      x: 0,
-      y: 0,
-    }
-  }
-
-  const t = 1 - (radius / d)
-
-  return {
-    x: t * x,
-    y: t * y,
-  }
-}
-
 engine.utility.toCents = (f1, f2) => (f2 - f1) / f1 * 1200
 
 engine.utility.toDb = (value) => 10 * Math.log10(value)
-
-engine.utility.toRelativeCoordinates = (
-  {
-    angle = 0,
-    x: positionX = 0,
-    y: positionY = 0,
-  } = {},
-  {
-    radius = 0,
-    x: objectX = 0,
-    y: objectY = 0,
-  } = {}
-) => {
-  return engine.utility.subtractRadius(
-    engine.utility.rotatePoint(
-      objectX - positionX,
-      objectY - positionY,
-      angle
-    ),
-    radius
-  )
-}
 
 engine.utility.toSubFrequency = (frequency, sub = engine.const.subFrequency) => {
   while (frequency > sub) {

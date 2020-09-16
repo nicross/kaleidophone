@@ -5,8 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   engine.loop.start().pause()
 
-  engine.const.reverbActive = false
-  engine.audio.mixer.auxiliary.reverb.refreshActive()
+  engine.audio.mixer.auxiliary.reverb.setActive(false)
 
   engine.audio.mixer.master.param.gain.value = engine.const.zeroGain
 })

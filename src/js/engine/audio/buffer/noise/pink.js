@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.buffer.noise.pink = (() => {
   const context = engine.audio.context()
 

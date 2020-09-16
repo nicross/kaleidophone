@@ -1,48 +1,38 @@
-'use strict'
-
 engine.prop.base = {
   name: 'base',
   construct: function ({
-    angle = 0,
-    output = engine.audio.mixer.bus.props(),
-    radius = 0,
+    destination = engine.audio.mixer.bus.props(),
+    radius = this.radius || 0,
+    token,
     x = 0,
     y = 0,
+    z = 0,
     ...options
   } = {}) {
     const context = engine.audio.context()
 
-    this.acceleration = 0
-    this.accelerationDelta = 0
-    this.angle = angle
-    this.angleDelta = 0
-    this.jerk = 0
-    this.jerkDelta = 0
+    this.instantiated = true
     this.periodic = {}
     this.radius = radius
-    this.shouldCull = false
     this.spawnAngle = this.angle
-    this.spawnX = x
-    this.spawnY = y
-    this.velocity = 0
-    this.velocityDelta = 0
-    this.willCull = false
+    this.token = token
     this.x = x
     this.y = y
+    this.z = z
 
-    this.output = {
-      binaural: engine.audio.binaural.create(),
-      input: context.createGain(),
-      reverb: engine.audio.send.reverb.create(),
-    }
+    this.binaural = engine.audio.binaural.create()
+    this.output = context.createGain()
+    this.reverb = engine.audio.send.reverb.create()
 
-    this.output.binaural.from(this.output.input)
-    this.output.binaural.to(output)
+    this.binaural.from(this.output)
+    this.binaural.to(destination)
 
-    this.output.reverb.from(this.output.input)
+    this.reverb.from(this.output)
 
-    this.output.input.gain.value = engine.const.zeroGain
-    engine.audio.ramp.linear(this.output.input.gain, 1, engine.const.propFadeDuration)
+    this.output.gain.value = engine.const.zeroGain
+    engine.audio.ramp.linear(this.output.gain, 1, engine.const.propFadeDuration)
+
+    engine.utility.physical.decorate(this)
 
     this.recalculate()
     this.onConstruct(options)
@@ -50,12 +40,12 @@ engine.prop.base = {
     return this
   },
   destroy: function () {
-    engine.audio.ramp.linear(this.output.input.gain, engine.const.zeroGain, engine.const.propFadeDuration)
+    engine.audio.ramp.linear(this.output.gain, engine.const.zeroGain, engine.const.propFadeDuration)
 
     setTimeout(() => {
-      this.output.input.disconnect()
-      this.output.binaural.destroy()
-      this.output.reverb.destroy()
+      this.output.disconnect()
+      this.binaural.destroy()
+      this.reverb.destroy()
       this.onDestroy()
     }, engine.const.propFadeDuration * 1000)
 
@@ -113,22 +103,21 @@ engine.prop.base = {
   onConstruct: () => {},
   onDestroy: () => {},
   onUpdate: () => {},
-  recalculate: function (delta = 0) {
-    const position = engine.position.get(),
-      relative = engine.utility.toRelativeCoordinates(position, this)
+  recalculate: function () {
+    const positionQuaternion = engine.position.getQuaternion(),
+      positionVector = engine.position.getVector()
 
-    this.atan2 = Math.atan2(this.y - position.y, this.x - position.x)
-    this.distance = engine.utility.distanceRadius(position.x, position.y, this.x, this.y, this.radius)
+    this.updatePhysics()
 
-    this.output.binaural.update({
-      delta,
-      ...relative,
-    })
+    this.relative = this.vector()
+      .subtract(positionVector)
+      .subtractRadius(this.radius)
+      .rotateQuaternion(positionQuaternion.conjugate())
 
-    this.output.reverb.update({
-      delta,
-      ...relative,
-    })
+    this.distance = this.relative.distance()
+
+    this.binaural.update({...this.relative})
+    this.reverb.update({...this.relative})
 
     return this
   },
@@ -154,40 +143,7 @@ engine.prop.base = {
       return this
     }
 
-    if (this.angleDelta) {
-      this.angle += this.angleDelta
-      this.angleDelta = 0
-    }
-
-    if (this.jerkDelta) {
-      this.jerk += this.jerkDelta
-      this.jerkDelta = 0
-    }
-
-    if (this.jerk) {
-      this.accelerationDelta = (this.accelerationDelta || 0) + this.jerk
-    }
-
-    if (this.accelerationDelta) {
-      this.acceleration += this.accelerationDelta
-      this.accelerationDelta = 0
-    }
-
-    if (this.acceleration) {
-      this.velocityDelta = (this.velocityDelta || 0) + this.acceleration
-    }
-
-    if (this.velocityDelta) {
-      this.velocity += this.velocityDelta
-      this.velocityDelta = 0
-    }
-
-    if (this.velocity) {
-      this.x += Math.cos(this.angle) * this.velocity * delta
-      this.y += Math.sin(this.angle) * this.velocity * delta
-    }
-
-    this.recalculate(delta)
+    this.recalculate()
 
     return this
   },

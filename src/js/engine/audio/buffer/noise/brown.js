@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.buffer.noise.brown = (() => {
   const context = engine.audio.context()
 

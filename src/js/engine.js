@@ -1,6 +1,16 @@
-'use strict'
+const engine = (() => {
+  const ready = new Promise((resolve) => {
+    document.addEventListener('DOMContentLoaded', resolve)
+  })
 
-const engine = {
-  event: {},
-  prop: {},
-}
+  return {
+    input: {},
+    prop: {},
+    ready: (callback) => {
+      return typeof callback == 'function'
+        ? ready.then(callback)
+        : ready
+    },
+    utility: {},
+  }
+})()

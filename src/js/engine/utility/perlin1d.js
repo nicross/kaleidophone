@@ -1,5 +1,3 @@
-'use strict'
-
 engine.utility.perlin1d = {}
 
 engine.utility.perlin1d.create = function (...args) {

@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.synth = {}
 
 engine.audio.synth.assign = function (synth, key, plugin) {

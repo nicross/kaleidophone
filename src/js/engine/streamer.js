@@ -1,33 +1,34 @@
-'use strict'
-
 engine.streamer = (() => {
-  const propRegistry = new Map(),
-    streamedProps = new Map()
+  const registry = new Map(),
+    registryTree = engine.utility.octree.create(),
+    streamed = new Map()
 
-  let currentX,
-    currentY
+  let currentVector = engine.utility.vector3d.create(),
+    limit = Infinity,
+    radius = engine.const.speedOfSound,
+    shouldForce = false,
+    sort = (a, b) => a.distance - b.distance
 
   function createRegisteredProp(token) {
-    if (!propRegistry.has(token)) {
+    if (!registry.has(token)) {
       return
     }
 
-    const streamedProp = engine.streamer.prop.create(
-      propRegistry.get(token)
-    )
+    const {options, prototype} = registry.get(token)
+    const prop = engine.props.create(prototype, options)
 
-    streamedProps.set(token, streamedProp)
+    streamed.set(token, prop)
   }
 
   function destroyStreamedProp(token) {
-    if (!streamedProps.has(token)) {
+    if (!streamed.has(token)) {
       return
     }
 
-    const streamedProp = streamedProps.get(token)
+    const prop = streamed.get(token)
 
-    streamedProp.destroy()
-    streamedProps.delete(token)
+    prop.destroy()
+    streamed.delete(token)
   }
 
   function generateToken() {
@@ -35,105 +36,154 @@ engine.streamer = (() => {
 
     do {
       token = engine.utility.uuid()
-    } while (propRegistry.has(token))
+    } while (registry.has(token))
 
     return token
   }
 
-  function isWithinRadius(x, y) {
-    return engine.utility.distance(x, y, currentX, currentY) <= engine.const.streamerRadius
+  function getStreamableProps() {
+    const props = [
+      // Select nearby registered props and coerce into instances of prototype
+      // so it's easier to sort and limit them (e.g. check prototype or options)
+      // (the instantiated flag should indicate whether spawned)
+      ...registryTree.retrieve({
+        depth: radius * 2,
+        height: radius * 2,
+        width: radius * 2,
+        x: currentVector.x - radius,
+        y: currentVector.y - radius,
+        z: currentVector.z - radius,
+      }).filter(({token}) => !streamed.has(token)).map((registeredProp) => Object.setPrototypeOf({
+        ...registeredProp.options,
+        distance: currentVector.distance(registeredProp),
+      }, registeredProp.prototype)),
+
+      // Currently streamed props
+      ...streamed.values(),
+    ].filter((prop) => prop.distance <= radius)
+
+    if (!isFinite(limit)) {
+      return props
+    }
+
+    return props.sort(sort).slice(0, limit)
   }
 
   return {
     cullProp: function (token) {
-      const streamedProp = streamedProps.get(token)
+      const prop = streamed.get(token)
 
-      if (streamedProp) {
-        streamedProp.cull()
+      if (prop) {
+        prop.willCull = true
       }
 
       return this
     },
     deregisterProp: function(token) {
-      propRegistry.delete(token)
+      const registeredProp = registry.get(token)
+
+      if (!registeredProp) {
+        return this
+      }
+
+      registry.delete(token)
+      registryTree.remove(registeredProp)
+
       return this
     },
-    getRegisteredProp: (token) => propRegistry.get(token),
-    getRegisteredProps: () => propRegistry.values(),
-    getStreamedProp: (token) => streamedProps.get(token),
-    getStreamedProps: () => streamedProps.values(),
-    hasRegisteredProp: (token) => propRegistry.has(token),
-    hasStreamedProp: (token) => streamedProps.has(token),
+    destroyStreamedProp: function (token) {
+      destroyStreamedProp(token)
+      return this
+    },
+    getLimit: () => limit,
+    getRadius: () => radius,
+    getRegisteredProp: (token) => registry.get(token),
+    getRegisteredProps: () => registry.values(),
+    getStreamedProp: (token) => streamed.get(token),
+    getStreamedProps: () => streamed.values(),
+    hasRegisteredProp: (token) => registry.has(token),
+    hasStreamedProp: (token) => streamed.has(token),
     registerProp: function(prototype, options = {}) {
       const token = generateToken()
 
-      propRegistry.set(token, {
-        options,
+      const registeredProp = {
+        options: {
+          ...options,
+          token,
+        },
         prototype,
         token,
-      })
-
-      if (isWithinRadius(options.x, options.y)) {
-        createRegisteredProp(token)
+        x: options.x,
+        y: options.y,
+        z: options.z,
       }
+
+      registry.set(token, registeredProp)
+      registryTree.insert(registeredProp)
+
+      shouldForce = true
 
       return token
     },
     reset: function() {
-      propRegistry.clear()
+      registry.clear()
+      registryTree.clear()
 
-      streamedProps.forEach((streamedProp) => streamedProp.destroy())
-      streamedProps.clear()
+      streamed.forEach((streamedProp) => streamedProp.destroy())
+      streamed.clear()
 
-      currentX = null
-      currentY = null
+      shouldForce = false
 
       return this
     },
+    setLimit: function (value) {
+      if (value > 0) {
+        limit = Number(value) || Infinity
+        shouldForce = true
+      }
+      return this
+    },
+    setRadius: function (value) {
+      radius = Number(value) || 0
+      shouldForce = true
+      return this
+    },
+    setSort: function (value) {
+      if (typeof sort == 'function') {
+        sort = value
+        shouldForce = true
+      }
+      return this
+    },
     update: (force = false) => {
-      const position = engine.position.get(),
-        positionX = Math.round(position.x),
-        positionY = Math.round(position.y)
+      const positionVector = engine.position.getVector()
 
-      if (currentX === positionX && currentY === positionY && !force) {
+      if (!force && !shouldForce && currentVector.equals(positionVector)) {
         return this
       }
 
-      currentX = positionX
-      currentY = positionY
+      currentVector = positionVector
+      shouldForce = false
 
-      streamedProps.forEach((streamedProp, token) => {
-        if (!streamedProp.prop.shouldCull) {
-          if (isWithinRadius(streamedProp.prop.x, streamedProp.prop.y)) {
-            return
-          }
+      const nowStreaming = new Set(),
+        streamable = getStreamableProps()
 
-          if (isWithinRadius(streamedProp.prop.spawnX, streamedProp.prop.spawnY)) {
-            return
-          }
+      for (const {token} of streamable) {
+        if (!streamed.has(token)) {
+          createRegisteredProp(token)
         }
+        nowStreaming.add(token)
+      }
 
-        destroyStreamedProp(token)
-      })
-
-      propRegistry.forEach((registeredProp, token) => {
-        if (streamedProps.has(token)) {
-          return
+      for (const token of streamed.keys()) {
+        if (!nowStreaming.has(token)) {
+          destroyStreamedProp(token)
         }
-
-        if (!isWithinRadius(registeredProp.options.x, registeredProp.options.y)) {
-          return
-        }
-
-        createRegisteredProp(token)
-      })
+      }
 
       return this
     },
     updateRegisteredProp: function (token, options = {}) {
-      // XXX: If changing prototype then probably doing it wrong
-      // XXX: If changing a streamed prop then probably doing it wrong
-
       const registeredProp = propRegistry.get(token)
 
       if (!registeredProp) {
@@ -143,6 +193,7 @@ engine.streamer = (() => {
       registeredProp.options = {
         ...registeredProp.options,
         ...options,
+        token,
       }
 
       return this
@@ -150,7 +201,7 @@ engine.streamer = (() => {
   }
 })()
 
-engine.loop.on('frame', ({ paused }) => {
+engine.loop.on('frame', ({paused}) => {
   if (paused) {
     return
   }

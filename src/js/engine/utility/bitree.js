@@ -1,5 +1,3 @@
-'use strict'
-
 engine.utility.bitree = {}
 
 engine.utility.bitree.create = function (...args) {

@@ -1,5 +1,3 @@
-'use strict'
-
 engine.utility.quadtree = {}
 
 engine.utility.quadtree.create = function (...args) {
@@ -58,10 +56,11 @@ engine.utility.quadtree.prototype = {
     }
 
     const distance = ({x, y}) => ((x - query.x) ** 2) + ((y - query.y) ** 2),
-      index = this.getIndex(query)
+      index = this.getIndex(query),
+      radius2 = ((radius * (Math.sqrt(2) / 2)) ** 2) * 2
 
     if (index == -1) {
-      let minDistance = radius,
+      let minDistance = radius2,
         result
 
       for (const item of this.items) {
@@ -81,7 +80,7 @@ engine.utility.quadtree.prototype = {
     }
 
     let result = this.nodes[index].find(query, radius)
-    let minDistance = result ? distance(result) : Infinity
+    let minDistance = result ? distance(result) : radius2
 
     for (const node of this.nodes) {
       if (node === this.nodes[index]) {
@@ -150,6 +149,21 @@ engine.utility.quadtree.prototype = {
   },
   intersects: function (rect) {
     return engine.utility.intersects(this, rect)
+  },
+  remove: function (item) {
+    if (this.nodes.length) {
+      const index = this.getIndex(item)
+      this.nodes[index].remove(item)
+      return this
+    }
+
+    const index = this.items.indexOf(item)
+
+    if (index != -1) {
+      this.items.splice(index, 1)
+    }
+
+    return this
   },
   retrieve: function ({
     height = 0,

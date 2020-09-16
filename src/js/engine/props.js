@@ -1,8 +1,5 @@
-'use strict'
-
 engine.props = (() => {
-  const archetypes = new Map(),
-    pool = new Set()
+  const pool = new Set()
 
   return {
     add: function (...props) {
@@ -28,35 +25,18 @@ engine.props = (() => {
 
       return this
     },
-    has: (prop) => pool.has(prop),
-    filter: (...args) => [...pool].filter(...args),
-    forEach: (...args) => [...pool].forEach(...args),
     get: () => [...pool],
-    getPrototype: (key) => archetypes.get(key) || engine.prop.null,
-    getRegistered: () => archetypes.entries(),
-    map: (...args) => [...pool].map(...args),
-    reduce: (...args) => [...pool].reduce(...args),
-    register: function (prototype, key = '') {
-      archetypes.set(key || prototype.name, prototype)
-      return this
-    },
     reset: function () {
-      [...pool].forEach((prop) => prop.destroy())
+      pool.forEach((prop) => prop.destroy())
       pool.clear()
       return this
     },
-    update: function (...args) {
-      [...pool].forEach((prop) => prop.update(...args))
+    update: function ({delta, paused}) {
+      pool.forEach((prop) => prop.update({delta, paused}))
       return this
     },
   }
 })()
 
-engine.loop.on('frame', ({delta, paused}) => engine.props.update({
-  delta,
-  movement: engine.movement.get(),
-  paused,
-  position: engine.position.get(),
-}))
-
+engine.loop.on('frame', (e) => engine.props.update(e))
 engine.state.on('reset', () => engine.props.reset())

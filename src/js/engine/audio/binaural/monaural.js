@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.binaural.monaural = {}
 
 engine.audio.binaural.monaural.create = function (...args) {
@@ -40,25 +38,31 @@ engine.audio.binaural.monaural.prototype = {
     return this
   },
   update: function ({
-    delta,
-    x: observerX = 0,
-    y: observerY = 0,
-  }) {
+    x = 0,
+    y = 0,
+    z = 0,
+  } = {}) {
     // NOTE: Observer is facing 0° at (0, 0)
-    const yOffset = this.panSign * engine.const.binauralHeadWidth / 2
-    const {x: earX, y: earY} = engine.utility.rotatePoint(observerX, observerY + yOffset, this.angleOffset)
+    const ear = engine.utility.vector3d.create({
+      x,
+      y: y + (this.panSign * engine.const.binauralHeadWidth / 2),
+      z,
+    }).rotateEuler({yaw: this.angleOffse})
 
-    const distance = engine.utility.distanceOrigin(earX, earY),
+    const distance = ear.distance(),
       distancePower = engine.utility.distanceToPower(distance)
 
-    const {x: shadowX, y: shadowY} = engine.utility.rotatePoint(observerX, observerY + yOffset, this.angleOffset + (this.panSign * engine.const.binauralShadowOffset))
+    const shadow = ear.rotateEuler({
+      yaw: this.panSign * engine.const.binauralShadowOffset,
+    }).euler()
 
-    const shadowAngle = Math.atan2(shadowY, shadowX)
-    const isAhead = Math.cos(shadowAngle) > 0
+    // TODO: Simulate shadow as a 3D cone?
+    const shadowCos = Math.cos(shadow.yaw)
+    const isAhead = shadowCos > 0
 
     const shadowTarget = isAhead
-      ? engine.utility.lerp(0.75, 1, Math.cos(shadowAngle))
-      : engine.utility.lerp(0, 0.75, 1 + Math.cos(shadowAngle))
+      ? engine.utility.lerp(0.75, 1, shadowCos)
+      : engine.utility.lerp(0, 0.75, 1 + shadowCos)
 
     const shadowRolloff = engine.utility.clamp(engine.utility.scale(distance, 0, engine.const.binauralShadowRolloff, 0, 1), 0, 1),
       shadowStrength = engine.utility.lerp(1, shadowTarget, shadowRolloff)
@@ -67,9 +71,9 @@ engine.audio.binaural.monaural.prototype = {
       filterFrequency = engine.utility.lerpExp(engine.const.acousticShadowFrequency, engine.const.maxFrequency, shadowStrength),
       inputGain = engine.utility.clamp(distancePower, engine.const.zeroGain, 1)
 
-    engine.audio.ramp.linear(this.delay.delayTime, delayTime, delta)
-    engine.audio.ramp.linear(this.filter.frequency, filterFrequency, delta)
-    engine.audio.ramp.linear(this.gain.gain, inputGain, delta)
+    engine.audio.ramp.set(this.delay.delayTime, delayTime)
+    engine.audio.ramp.set(this.filter.frequency, filterFrequency)
+    engine.audio.ramp.set(this.gain.gain, inputGain)
 
     return this
   },

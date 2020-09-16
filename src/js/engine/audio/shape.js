@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.shape = (() => {
   const crush6 = createBitcrush(6),
     crush8 = createBitcrush(8),

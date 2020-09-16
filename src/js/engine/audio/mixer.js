@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.mixer = (() => {
   const context = engine.audio.context()
 
@@ -70,6 +68,9 @@ engine.audio.mixer = (() => {
       output: masterOutput,
       param: {
         gain: masterOutput.gain,
+        highpass: {
+          frequency: masterHighpass.frequency,
+        },
         limiter: {
           attack: masterCompressor.attack,
           gain: masterCompensator.gain,
@@ -78,11 +79,18 @@ engine.audio.mixer = (() => {
           release: masterCompressor.release,
           threshold: masterCompressor.threshold,
         },
+        lowpass: {
+          frequency: masterLowpass.frequency,
+        },
       },
     },
     rebuildFilters: function () {
       destroyFilters()
       createFilters()
+
+      this.master.param.highpass.frequency = masterHighpass.frequency
+      this.master.param.lowpass.frequency = masterLowpass.frequency
+
       return this
     },
   }

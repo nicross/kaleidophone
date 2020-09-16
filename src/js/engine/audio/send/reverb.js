@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.send.reverb = {}
 
 engine.audio.send.reverb.create = function (...args) {
@@ -13,8 +11,8 @@ engine.audio.send.reverb.prototype = {
     this.input = context.createGain()
     this.delay = context.createDelay()
     this.send = engine.audio.mixer.auxiliary.reverb.createSend()
-    this.x = 0
-    this.y = 0
+
+    this.relative = engine.utility.vector3d.create()
 
     this.onSendActivate = this.onSendActivate.bind(this)
     engine.audio.mixer.auxiliary.reverb.on('activate', this.onSendActivate)
@@ -41,7 +39,7 @@ engine.audio.send.reverb.prototype = {
     return this
   },
   onSendActivate: function () {
-    this.update()
+    this.update(this.relative)
     this.input.connect(this.delay)
     this.delay.connect(this.send)
     return this
@@ -51,23 +49,34 @@ engine.audio.send.reverb.prototype = {
     this.delay.disconnect()
     return this
   },
-  update: function ({x = this.x, y = this.y} = {}) {
-    this.x = x
-    this.y = y
+  update: function ({
+    x = 0,
+    y = 0,
+    z = 0,
+  } = {}) {
+    this.relative.set({
+      x,
+      y,
+      z,
+    })
 
     if (!engine.audio.mixer.auxiliary.reverb.isActive()) {
       return this
     }
 
-    const distance = engine.utility.distanceOrigin(this.x, this.y),
+    // TODO: Consider a distance model that doesn't rely on engine.streamer.getRadius()
+    // e.g. a constant ratio that forces users to turn reverb send way down
+    // BUT what's nice about this solution is close sounds are present and further are roomy
+
+    const distance = this.relative.distance(),
       distancePower = engine.utility.distanceToPower(distance),
-      distanceRatio = 0.5 + (engine.utility.clamp(distance / engine.const.streamerRadius, 0, 1) * 0.5)
+      distanceRatio = 0.5 + (engine.utility.clamp(distance / engine.streamer.getRadius(), 0, 1) * 0.5)
 
     const delayTime = engine.utility.clamp(distance / engine.const.speedOfSound, engine.const.zeroTime, 1),
       inputGain = engine.utility.clamp(distancePower * distanceRatio, engine.const.zeroGain, 1)
 
-    this.delay.delayTime.value = delayTime
-    this.input.gain.value = inputGain
+    engine.audio.ramp.set(this.delay.delayTime, delayTime)
+    engine.audio.ramp.set(this.input.gain, inputGain)
 
     return this
   },

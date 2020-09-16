@@ -17,7 +17,7 @@ content.prop.tone = engine.prop.base.invent({
       modFrequency: engine.utility.lerp(1/16, 1/4, modFrequency),
     }).filtered({
       frequency: frequency * 4,
-    }).connect(this.output.input)
+    }).connect(this.output)
   },
   onDestroy: function () {
     this.synth.stop()

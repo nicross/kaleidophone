@@ -1,5 +1,3 @@
-'use strict'
-
 engine.audio.buffer.impulse.large = (() => {
   const context = engine.audio.context()
 
