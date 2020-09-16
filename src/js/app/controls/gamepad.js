@@ -1,48 +1,20 @@
 app.controls.gamepad = {
-  deadzone: (input, threshold = 0.1875) => {
-    const ratio = (Math.abs(input) - threshold) / (1 - threshold),
-      sign = input > 0 ? 1 : -1
-
-    return ratio > 0 ? sign * ratio : 0
-  },
   game: function () {
-    const gamepads = navigator.getGamepads()
-
-    if (!gamepads.length) {
-      return {}
-    }
-
     let rotate = 0,
       z = 0
 
-    for (let i = 0; i < gamepads.length; i += 1) {
-      const gamepad = gamepads[i]
-
-      if (!gamepad) {
-        continue
-      }
-
-      const hasLeftStick = 0 in gamepad.axes && 1 in gamepad.axes,
-        hasRightStick = 2 in gamepad.axes && 3 in gamepad.axes
-
-      if (hasLeftStick) {
-        rotate += this.deadzone(gamepad.axes[0])
-        z += this.deadzone(gamepad.axes[1])
-      }
-
-      if (hasRightStick) {
-        rotate += this.deadzone(gamepad.axes[2])
-        z += this.deadzone(gamepad.axes[3])
-      }
-
-      if (6 in gamepad.buttons) {
-        z -= gamepad.buttons[6].value
-      }
-
-      if (7 in gamepad.buttons) {
-        z += gamepad.buttons[7].value
-      }
+    if (engine.input.gamepad.hasAxis(0, 1)) {
+      rotate += engine.input.gamepad.getAxis(0)
+      z += engine.input.gamepad.getAxis(1, true)
     }
+
+    if (engine.input.gamepad.hasAxis(2, 3)) {
+      rotate += engine.input.gamepad.getAxis(2)
+      z += engine.input.gamepad.getAxis(3, true)
+    }
+
+    z += engine.input.gamepad.getAnalog(7)
+    z -= engine.input.gamepad.getAnalog(6)
 
     return {
       rotate: engine.utility.clamp(rotate, -1, 1),
@@ -50,60 +22,41 @@ app.controls.gamepad = {
     }
   },
   ui: function () {
-    const gamepads = navigator.getGamepads()
+    const state = {}
 
-    if (!gamepads.length) {
-      return {}
-    }
-
-    const buttons = {},
-      state = {}
-
-    for (let i = 0; i < gamepads.length; i += 1) {
-      const gamepad = gamepads[i]
-
-      if (!gamepad) {
-        continue
-      }
-
-      gamepad.buttons.forEach((button, i) => {
-        buttons[i] |= button.pressed
-      })
-    }
-
-    if (buttons[9]) {
+    if (engine.input.gamepad.isDigital(9)) {
       state.start = true
     }
 
-    if (buttons[0]) {
+    if (engine.input.gamepad.isDigital(0)) {
       state.confirm = true
     }
 
-    if (buttons[5] || buttons[15]) {
+    if (engine.input.gamepad.isDigital(5) || engine.input.gamepad.isDigital(15)) {
       state.play = true
     }
 
-    if (buttons[4] || buttons[14]) {
+    if (engine.input.gamepad.isDigital(4) || engine.input.gamepad.isDigital(14)) {
       state.rewind = true
     }
 
-    if (buttons[12]) {
+    if (engine.input.gamepad.isDigital(12)) {
       state.increaseSpeed = true
     }
 
-    if (buttons[13]) {
+    if (engine.input.gamepad.isDigital(13)) {
       state.decreaseSpeed = true
     }
 
-    if (buttons[2] || buttons[8]) {
+    if (engine.input.gamepad.isDigital(2) || engine.input.gamepad.isDigital(8)) {
       state.randomizeSeed = true
     }
 
-    if (buttons[0]) {
+    if (engine.input.gamepad.isDigital(0)) {
       state.toggleRotate = true
     }
 
-    if (buttons[1] || buttons[9]) {
+    if (engine.input.gamepad.isDigital(1) || engine.input.gamepad.isDigital(9)) {
       state.freeze = true
     }
 
