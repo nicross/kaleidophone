@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.frequencies = (() => {
   const chordField = engine.utility.perlin1d.create('frequencies', 'chord'),
     colorField = engine.utility.perlin1d.create('frequencies', 'color'),

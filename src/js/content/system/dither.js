@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.dither = (() => {
   const bus = engine.audio.mixer.createBus()
 

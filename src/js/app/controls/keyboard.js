@@ -1,5 +1,3 @@
-'use strict'
-
 app.controls.keyboard = (() => {
   const controls = {
     ArrowDown: false,

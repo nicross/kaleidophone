@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.z = (() => {
   let z = 0
 

@@ -2,6 +2,7 @@ const cleancss = require('gulp-clean-css')
 const concat = require('gulp-concat')
 const electron = require('gulp-run-electron')
 const gulp = require('gulp')
+const header = require('gulp-header')
 const gulpif = require('gulp-if')
 const iife = require('gulp-iife')
 const package = require('./package.json')
@@ -30,7 +31,7 @@ gulp.task('build-js', () => {
   ).pipe(
     concat('scripts.min.js')
   ).pipe(
-    gulpif(!isDebug, iife())
+    gulpif(!isDebug, iife(), header("'use strict';\n\n"))
   ).pipe(
     gulp.dest('public')
   ).pipe(

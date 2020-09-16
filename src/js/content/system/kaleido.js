@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.kaleido = (() => {
   const bus = engine.audio.mixer.createBus(),
     context = engine.audio.context(),

@@ -1,5 +1,3 @@
-'use strict'
-
 app.utility.dom = {
   closest: function (element, selector) {
     if (element instanceof Element) {

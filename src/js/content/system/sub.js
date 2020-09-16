@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.sub = (() => {
   const bus = engine.audio.mixer.createBus(),
     context = engine.audio.context(),

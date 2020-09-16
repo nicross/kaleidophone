@@ -1,5 +1,3 @@
-'use strict'
-
 engine.const.midiReferenceFrequency = 432
 engine.const.propFadeDuration = 1/16
 

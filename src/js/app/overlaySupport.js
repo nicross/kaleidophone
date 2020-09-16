@@ -1,5 +1,3 @@
-'use strict'
-
 app.on('activate', () => {
   const canvas = document.querySelector('.a-app--overlaySupport'),
     context = canvas.getContext('2d')

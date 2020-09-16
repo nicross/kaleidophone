@@ -1,5 +1,3 @@
-'use strict'
-
 app.utility.focus = (() => {
   const focusableSelector = 'button, input, [tabindex="0"]',
     identity = (x) => x,

@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.stages = (() => {
   let ceiling,
     floor,

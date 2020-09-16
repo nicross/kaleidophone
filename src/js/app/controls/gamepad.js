@@ -1,5 +1,3 @@
-'use strict'
-
 app.controls.gamepad = {
   deadzone: (input, threshold = 0.1875) => {
     const ratio = (Math.abs(input) - threshold) / (1 - threshold),

@@ -1,5 +1,3 @@
-'use strict'
-
 const app = engine.utility.pubsub.decorate({
   activate: function () {
     document.querySelector('.a-app').classList.add('a-app-active')

@@ -1,5 +1,3 @@
-'use strict'
-
 content.system.stages.stage = {}
 
 content.system.stages.stage.create = function (...args) {

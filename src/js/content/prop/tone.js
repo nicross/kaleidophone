@@ -1,5 +1,3 @@
-'use strict'
-
 content.prop.tone = engine.prop.base.invent({
   name: 'tone',
   onConstruct: function ({

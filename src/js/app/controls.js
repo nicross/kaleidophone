@@ -1,5 +1,3 @@
-'use strict'
-
 app.controls = (() => {
   let uiCache = {},
     uiDelta = {}

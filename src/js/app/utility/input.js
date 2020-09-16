@@ -1,5 +1,3 @@
-'use strict'
-
 app.utility.input = {
   preventControls: function (input) {
     const codes = ['ArrowLeft', 'ArrowRight', 'Backspace', 'Delete', 'KeyA', 'KeyD', 'KeyS', 'KeyW', 'NumpadDecimal', 'Numpad4', 'Numpad5', 'Numpad6', 'Numpad8']
