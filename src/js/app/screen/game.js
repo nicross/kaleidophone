@@ -21,7 +21,7 @@ app.screen.game = (() => {
     return speedPresets[speedPreset]
   }
 
-  function calculateZ(inputZ = 0) {
+  function calculateTime(inputZ = 0) {
     const speed = calculateSpeed()
 
     if (inputZ) {
@@ -112,7 +112,7 @@ app.screen.game = (() => {
       },
     })
 
-    content.system.z.add(calculateZ(game.z) * delta)
+    content.system.time.add(calculateTime(game.z) * delta)
 
     if (ui.randomizeSeed) {
       engine.state.import({

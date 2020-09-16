@@ -1,20 +1,20 @@
-content.system.z = (() => {
-  let z = 0
+content.system.time = (() => {
+  let time = 0
 
   return {
     add: function (value) {
-      z += Number(value)
+      time += Number(value)
       return this
     },
-    get: () => z,
+    get: () => time,
     reset: function () {
       return this.set(0)
     },
     set: function (value) {
-      z = Number(value)
+      time = Number(value)
       return this
     },
   }
 })()
 
-engine.state.on('reset', () => content.system.z.reset())
+engine.state.on('reset', () => content.system.time.reset())

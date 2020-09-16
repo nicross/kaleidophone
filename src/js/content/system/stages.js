@@ -21,33 +21,33 @@ content.system.stages = (() => {
       return this
     },
     update: function () {
-      const z = content.system.z.get(),
-        zi = Math.floor(z)
+      const t = content.system.time.get(),
+        ti = Math.floor(t)
 
-      const ceilingZ = zi + 1,
-        floorZ = zi
+      const ceilingT = ti + 1,
+        floorT = ti
 
       if (!ceiling) {
-        ceiling = content.system.stages.stage.create(ceilingZ)
+        ceiling = content.system.stages.stage.create(ceilingT)
       }
 
       if (!floor) {
-        floor = content.system.stages.stage.create(floorZ)
+        floor = content.system.stages.stage.create(floorT)
       }
 
-      if (ceiling.z < ceilingZ) {
+      if (ceiling.t < ceilingT) {
         floor.destroy()
         floor = ceiling
-        ceiling = content.system.stages.stage.create(ceilingZ)
+        ceiling = content.system.stages.stage.create(ceilingT)
       }
 
-      if (floor.z > floorZ) {
+      if (floor.t > floorT) {
         ceiling.destroy()
         ceiling = floor
-        floor = content.system.stages.stage.create(floorZ)
+        floor = content.system.stages.stage.create(floorT)
       }
 
-      mix = engine.utility.scale(z, floorZ, ceilingZ, 0, 1)
+      mix = engine.utility.scale(t, floorT, ceilingT, 0, 1)
 
       ceiling.setMix(mix)
       floor.setMix(1 - mix)

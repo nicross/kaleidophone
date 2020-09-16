@@ -5,8 +5,8 @@ content.system.stages.stage.create = function (...args) {
 }
 
 content.system.stages.stage.prototype = {
-  construct: function (z) {
-    this.z = z
+  construct: function (t) {
+    this.t = t
 
     this.bus = content.system.kaleido.createSend()
     this.bus.gain.value = engine.const.zeroGain
@@ -31,7 +31,7 @@ content.system.stages.stage.prototype = {
       return this
     }
 
-    const frequencies = content.system.frequencies.get(this.z)
+    const frequencies = content.system.frequencies.get(this.t)
 
     this.props = []
 
@@ -44,7 +44,7 @@ content.system.stages.stage.prototype = {
     return this
   },
   generateProp: function (index, frequencies) {
-    const srand = engine.utility.srand('stage', this.z, 'prop', index)
+    const srand = engine.utility.srand('stage', this.t, 'prop', index)
 
     const angle = srand(0, Math.PI * 2),
       distance = srand(content.const.stageMinRadius, content.const.stageMaxRadius)

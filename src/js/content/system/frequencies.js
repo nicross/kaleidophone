@@ -11,12 +11,12 @@ content.system.frequencies = (() => {
     octaveScale = 0,
     root = 0
 
-  function getChord(z) {
-    const value = chordField.value(z / chordScale)
+  function getChord(t) {
+    const value = chordField.value(t / chordScale)
 
     const chord = engine.utility.choose(chords, value),
-      inversion = getInversion(z),
-      octave = getOctave(z)
+      inversion = getInversion(t),
+      octave = getOctave(t)
 
     return chord.map((note, index) => {
       note += root + (octave * 12)
@@ -29,18 +29,18 @@ content.system.frequencies = (() => {
     })
   }
 
-  function getColor(z) {
-    const value = colorField.value(z / colorScale)
+  function getColor(t) {
+    const value = colorField.value(t / colorScale)
     return Math.round(engine.utility.lerp(2, 4, value))
   }
 
-  function getInversion(z) {
-    const value = inversionField.value(z / inversionScale)
+  function getInversion(t) {
+    const value = inversionField.value(t / inversionScale)
     return Math.round(engine.utility.lerp(0, 2, value))
   }
 
-  function getOctave(z) {
-    const value = octaveField.value(z / octaveScale)
+  function getOctave(t) {
+    const value = octaveField.value(t / octaveScale)
     return Math.round(engine.utility.lerp(2, 4, value))
   }
 
@@ -83,9 +83,9 @@ content.system.frequencies = (() => {
   }
 
   return {
-    get: (z) => {
-      const chord = getChord(z),
-        color = getColor(z)
+    get: (t) => {
+      const chord = getChord(t),
+        color = getColor(t)
 
       return chord.reduce((fs, f) => [...fs, ...toHarmonicSeries(f, color)], [])
     },
@@ -108,8 +108,8 @@ content.system.frequencies = (() => {
       return this
     },
     root: () => root,
-    sub: (z) => {
-      const chord = getChord(z)
+    sub: (t) => {
+      const chord = getChord(t)
 
       let frequency = chord[0]
 

@@ -19,12 +19,12 @@ content.system.sub = (() => {
   return {
     update: function () {
       const delta = engine.loop.delta(),
-        z = content.system.z.get(),
-        zi = Math.floor(z)
+        t = content.system.time.get(),
+        ti = Math.floor(t)
 
-      const ceiling = content.system.frequencies.sub(zi + 1),
-        floor = content.system.frequencies.sub(zi),
-        mix = z - zi
+      const ceiling = content.system.frequencies.sub(ti + 1),
+        floor = content.system.frequencies.sub(ti),
+        mix = t - ti
 
       const frequency = engine.utility.lerp(floor, ceiling, mix)
 
