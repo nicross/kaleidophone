@@ -3,6 +3,8 @@ app.utility.focus = (() => {
     identity = (x) => x,
     notFocusableSelector = '[aria-hidden="true"], [aria-hidden="true"] *, [disabled], [hidden], [hidden] *'
 
+  let lastFocused
+
   return {
     get: function (parentElement = document.documentElement) {
       return parentElement.querySelector(':focus')
@@ -15,6 +17,19 @@ app.utility.focus = (() => {
     },
     isWithin: function (parentElement) {
       return Boolean(parentElement.querySelector(':focus'))
+    },
+    onWindowFocus: function () {
+      setTimeout(() => {
+        if (!this.get() && lastFocused) {
+          this.set(lastFocused)
+        }
+      })
+
+      return this
+    },
+    onWindowFocusin: function () {
+      lastFocused = this.get()
+      return this
     },
     release: function (parentElement) {
       parentElement.removeEventListener('keydown', parentElement._utilityFocusTrap)
@@ -142,3 +157,6 @@ app.utility.focus = (() => {
     },
   }
 })()
+
+window.addEventListener('focus', () => app.utility.focus.onWindowFocus())
+window.addEventListener('focusin', () => app.utility.focus.onWindowFocusin())
