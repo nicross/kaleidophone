@@ -4,12 +4,12 @@ app.controls.gamepad = {
       z = 0
 
     if (engine.input.gamepad.hasAxis(0, 1)) {
-      rotate += engine.input.gamepad.getAxis(0)
+      rotate += engine.input.gamepad.getAxis(0, true)
       z += engine.input.gamepad.getAxis(1, true)
     }
 
     if (engine.input.gamepad.hasAxis(2, 3)) {
-      rotate += engine.input.gamepad.getAxis(2)
+      rotate += engine.input.gamepad.getAxis(2, true)
       z += engine.input.gamepad.getAxis(3, true)
     }
 

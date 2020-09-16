@@ -21,7 +21,7 @@ engine.position = (() => {
     getVector: () => proxy.vector(),
     getVelocity: () => proxy.velocity.clone(),
     import: function ({
-      quaternion = {},
+      quaternion,
       x = 0,
       y = 0,
       z = 0,
@@ -30,7 +30,9 @@ engine.position = (() => {
       proxy.y = y
       proxy.z = z
 
-      proxy.quaternion.set(quaternion)
+      if (quaternion) {
+        proxy.quaternion.set(quaternion)
+      }
 
       proxy.angularVelocity.set()
       proxy.thrust.set()

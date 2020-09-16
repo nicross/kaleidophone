@@ -34,7 +34,7 @@ engine.utility.physical.decoration = {
 
     if (!this.angularVelocity.isZero()) {
       this.quaternion = this.quaternion.multiply(
-        this.angularVelocity.scale(delta)
+        this.angularVelocity.lerpFrom({w: 1}, delta)
       )
     }
 
