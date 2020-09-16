@@ -9,6 +9,13 @@ app.screen.splash.canvas = (() => {
     interactSprite,
     logoSprite
 
+  engine.ready(() => {
+    canvas = document.querySelector('.a-splash--canvas')
+    context = canvas.getContext('2d')
+
+    loadSprites()
+  })
+
   function cloneImageData(imageData) {
     return new ImageData(
       new Uint8ClampedArray(imageData.data),
@@ -81,14 +88,6 @@ app.screen.splash.canvas = (() => {
   }
 
   return {
-    activate: function () {
-      canvas = document.querySelector('.a-splash--canvas')
-      context = canvas.getContext('2d')
-
-      loadSprites()
-
-      return this
-    },
     update: function ({frame}) {
       context.clearRect(0, 0, width, height)
 
@@ -104,5 +103,3 @@ app.screen.splash.canvas = (() => {
     },
   }
 })()
-
-app.once('activate', () => app.screen.splash.canvas.activate())

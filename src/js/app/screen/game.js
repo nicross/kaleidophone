@@ -17,6 +17,14 @@ app.screen.game = (() => {
     speedPreset = 5,
     root
 
+  engine.ready(() => {
+    root = document.querySelector('.a-game')
+    app.utility.focus.trap(root)
+
+    app.state.screen.on('enter-game', onEnter)
+    app.state.screen.on('exit-game', onExit)
+  })
+
   function calculateSpeed() {
     return speedPresets[speedPreset]
   }
@@ -143,17 +151,5 @@ app.screen.game = (() => {
     app.screen.game.canvas.update(e)
   }
 
-  return {
-    activate: function () {
-      root = document.querySelector('.a-game')
-      app.utility.focus.trap(root)
-
-      app.state.screen.on('enter-game', onEnter)
-      app.state.screen.on('exit-game', onExit)
-
-      return this
-    },
-  }
+  return {}
 })()
-
-app.once('activate', () => app.screen.game.activate())

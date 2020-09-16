@@ -4,6 +4,17 @@ app.controls.touch = (() => {
   let height = 0,
     width = 0
 
+  engine.ready(() => {
+    const game = document.querySelector('.a-game--canvas')
+
+    game.addEventListener('touchend', onTouchEnd)
+    game.addEventListener('touchstart', onTouchStart)
+
+    window.addEventListener('orientationchange', cacheDimensions)
+    window.addEventListener('resize', cacheDimensions)
+    cacheDimensions()
+  })
+
   function cacheDimensions() {
     height = window.innerHeight
     width = window.innerWidth
@@ -78,18 +89,6 @@ app.controls.touch = (() => {
   }
 
   return {
-    activate: function () {
-      const game = document.querySelector('.a-game--canvas')
-
-      game.addEventListener('touchend', onTouchEnd)
-      game.addEventListener('touchstart', onTouchStart)
-
-      window.addEventListener('orientationchange', cacheDimensions)
-      window.addEventListener('resize', cacheDimensions)
-      cacheDimensions()
-
-      return this
-    },
     ui: () => {
       const state = {}
 
@@ -101,5 +100,3 @@ app.controls.touch = (() => {
     },
   }
 })()
-
-app.once('activate', () => app.controls.touch.activate())

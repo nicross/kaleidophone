@@ -1,4 +1,4 @@
-app.on('activate', () => {
+engine.ready(() => {
   const canvas = document.querySelector('.a-app--overlaySupport'),
     context = canvas.getContext('2d')
 

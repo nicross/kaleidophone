@@ -18,6 +18,11 @@ app.screen.game.canvas = (() => {
   patternCanvas.height = patternHeight
   patternCanvas.width = patternWidth
 
+  engine.ready(() => {
+    canvas = document.querySelector('.a-game--canvas')
+    context = canvas.getContext('2d')
+  })
+
   function analyze() {
     const ceiling = content.system.stages.ceiling(),
       floor = content.system.stages.floor()
@@ -145,12 +150,6 @@ app.screen.game.canvas = (() => {
   }
 
   return {
-    activate: function () {
-      canvas = document.querySelector('.a-game--canvas')
-      context = canvas.getContext('2d')
-
-      return this
-    },
     update: function ({frame}) {
       updatePattern(frame)
       paintPattern()
@@ -158,5 +157,3 @@ app.screen.game.canvas = (() => {
     },
   }
 })()
-
-app.once('activate', () => app.screen.game.canvas.activate())
