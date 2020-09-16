@@ -123,7 +123,7 @@ app.screen.game = (() => {
   }
 
   function handleRotate(inputRotate) {
-    const amount = content.const.rotationSpeed * (autoRotate ? 1 : inputRotate || 0)
+    const amount = content.const.rotationSpeed * (inputRotate || (autoRotate ? -1 : 0))
 
     engine.position.setAngularVelocityEuler({
       yaw: amount,
