@@ -9,7 +9,7 @@
   "main": "electron/main.js",
   "private": true,
   "devDependencies": {
-    "electron": "^9.1.2",
+    "electron": "^9.3.1",
     "electron-packager": "^14.2.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
