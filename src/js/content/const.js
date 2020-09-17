@@ -8,5 +8,5 @@ content.const = {
   stageMaxRadius: 2,
   stageMinRadius: 1,
   stagePropCount: 16,
-  subBeat: 6,
+  subBeat: 8,
 }
