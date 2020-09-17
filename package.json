@@ -1,8 +1,11 @@
 {
   "name": "Kaleidophone",
-  "version": "1.0.0",
-  "description": "",
-  "license": "UNLICENSED",
+  "version": "1.1.0",
+  "author": {
+    "name": "shiftBacktick",
+    "url": "https://shiftbacktick.io"
+  },
+  "license": "Unlicense",
   "main": "electron/main.js",
   "private": true,
   "devDependencies": {
