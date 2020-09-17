@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Kaleidophone Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <style>
+      *, *::after, *::before {
+        background: transparent;
+        border: 0;
+        box-sizing: border-box;
+        color: inherit;
+        font: inherit;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        font-family: monospace;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 1.5;
+      }
+
+      main ::selection {
+        background-color: #FF0000;
+        color: #FFFFFF;
+        text-decoration-color: #FFFFFF;
+      }
+
+      a {
+        color: #FF0000;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+
+      details > * + * {
+        margin-top: 1.25em;
+      }
+
+      em {
+        font-style: italic;
+      }
+
+      h2 {
+        font-size: 2em;
+      }
+
+      h3 {
+        font-size: 1.5em;
+        margin-top: 3rem;
+      }
+
+      h4 {
+        font-size: 1.25em;
+        margin-top: 3rem;
+      }
+
+      kbd {
+        border: 1px solid #FF0000;
+        border-radius: 0.25em;
+        display: inline-block;
+        padding: 0 0.5em;
+      }
+
+      strong, th {
+        font-weight: 700;
+      }
+
+      section {
+        margin: 0 auto;
+        max-width: calc(60ch + 4em);
+        padding: 3em 1em;
+      }
+
+      section + section {
+        border-top: 1px dotted #CCCCCC;
+      }
+
+      section > * + *:not(h3):not(h4) {
+        margin-top: 1.25em;
+      }
+
+      section > h2 + *,
+      section > h3 + *,
+      section > h4 + * {
+        margin-top: 0.75em !important;
+      }
+
+      table, td, th {
+        border: 1px solid #000000;
+        border-collapse: collapse;
+      }
+
+      td, th {
+        padding: 0.25em 0.5em;
+      }
+
+      th {
+        text-align: left;
+      }
+
+      ul {
+        list-style-position: inside;
+        padding-left: 1.5em;
+      }
+
+      .hero {
+        align-items: center;
+        background-color: #000000;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        line-height: 1.25;
+        padding: 4em 1em;
+      }
+        .hero h1 {
+          width: 100%;
+        }
+        .hero--logo {
+          display: block;
+          image-rendering: crisp-edges;
+          image-rendering: pixelated;
+          margin: 0 auto;
+          max-width: 10em;
+          width: 100%;
+        }
+        .hero--title {
+          color: #FFFFFF;
+          margin-top: 2em;
+          text-align: center;
+          text-transform: uppercase;
+        }
+
+        @keyframes hero--logo {
+          0% {
+            filter: hue-rotate(0deg);
+          }
+          100% {
+            filter: hue-rotate(360deg);
+          }
+        }
+
+      .scrollable {
+        max-width: 100%;
+        overflow: auto;
+        white-space: nowrap;
+      }
+
+      @media (min-width: 20rem) {
+        :root {
+          font-size: calc(1rem + ((1vw - 0.2rem) * 0.25));
+        }
+      }
+
+      @media (min-width: 30rem) {
+        .hero--logo {
+          max-width: 15em;
+        }
+      }
+
+      @media (min-width: 48rem) {
+        section {
+          padding-left: 2em;
+          padding-right: 2em;
+        }
+
+        .hero--logo {
+          max-width: 20em;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <h1>
+        <img alt="Kaleidophone by shiftBacktick" class="hero--logo" src="./img/splash/logo.png" />
+        <div class="hero--title">Documentation</div>
+      </h1>
+    </header>
+
+    <main>
+      <section>
+        <h2>What if we could stop time?</h2>
+        <p>This query is universal to the human experience. For me it's most common when listening to music, where I yearn to freeze a texture and fall into it forever. This is an exploration of that auditory paradise.</p>
+        <p>Kaleidophone is designed for deep thinking. With binaural beats at 8 Hz and a reference frequency of 432 Hz, it's perfect for any contemplative occasion. Explore its ambient soundscapes by manipulating time. Rewind, scrub, freeze, or adjust the playback speed of unique songs each use.</p>
+        <p>Please enjoy wherever it takes you.</p>
+      </section>
+
+      <section>
+        <h2>System Requirements</h2>
+        <p>Kaleidophone is an audio toy best experienced with headphones.</p>
+        <p>Real-time synthesis is an <em>extremely</em> CPU-intensive process. Kaleidophone will attempt to run on any machine that meets its minimum requirements; however, users may experience stuttering or drop-outs when running below the recommended requirements.</p>
+
+        <h3>Minimum System Requirements</h3>
+        <table>
+          <tr>
+            <th>CPU</th>
+            <td>SSE2 capable (64-bit)</td>
+          </tr>
+          <tr>
+            <th>RAM</th>
+            <td>2 GB</td>
+          </tr>
+        </table>
+
+        <h3>Recommended System Requirements</h3>
+        <table>
+          <tr>
+            <th>CPU</th>
+            <td>3.5 GHz Quad-Core (64-bit)</td>
+          </tr>
+          <tr>
+            <th>RAM</th>
+            <td>4 GB</td>
+          </tr>
+        </table>
+
+        <h3>Browser Support</h3>
+        <p>The HTML5 build of Kaleidophone is intended to be used in a recent version of a Chromium-based browser, including Google Chrome, Microsoft Edge, and Opera. Browser extensions that alter page behavior are not recommended. Other browsers may suffice if they support modern JavaScript features and the current Web Audio API specification.</p>
+      </section>
+
+      <section>
+        <h2>How to Use</h2>
+        <p>Interact to begin. Move forward and backward to scrub through time. Turn to pan and calibrate its kaleidoscopic visualizer. Play and rewind at adjustable speeds. Randomize at any time to hear something new.</p>
+      </section>
+
+      <section>
+        <h2>Controls</h2>
+        <p>Kaleidophone supports a variety of input devices. Although remapping of controls is currently not available, alternate control schemes have been provided where appropriate.</p>
+
+        <h3>Keyboard Controls</h3>
+        <p>Its keyboard controls support use with one or both hands:</p>
+
+        <div class="scrollable">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Key 1</th>
+                <th>Key 2</th>
+                <th>Key 3</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Play</th>
+                <td>E</td>
+                <td>Page Up</td>
+                <td>Numpad 9</td>
+              </tr>
+              <tr>
+                <th>Rewind</th>
+                <td>Q</td>
+                <td>Page Down</td>
+                <td>Numpad 7</td>
+              </tr>
+              <tr>
+                <th>Increase Speed</th>
+                <td>=</td>
+                <td></td>
+                <td>Numpad +</td>
+              </tr>
+              <tr>
+                <th>Decrease Speed</th>
+                <td>-</td>
+                <td></td>
+                <td>Numpad -</td>
+              </tr>
+              <tr>
+                <th>Set Speed</th>
+                <td>0&ndash;9</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Scrub Forward</th>
+                <td>W</td>
+                <td>Up Arrow</td>
+                <td>Numpad 8</td>
+              </tr>
+              <tr>
+                <th>Scrub Backward</th>
+                <td>S</td>
+                <td>Down Arrow</td>
+                <td>Numpad 5</td>
+              </tr>
+              <tr>
+                <th>Turn Left</th>
+                <td>A</td>
+                <td>Left Arrow</td>
+                <td>Numpad 4</td>
+              </tr>
+              <tr>
+                <th>Turn Right</th>
+                <td>D</td>
+                <td>Right Arrow</td>
+                <td>Numpad 6</td>
+              </tr>
+              <tr>
+                <th>Toggle Rotation</th>
+                <td>F</td>
+                <td>End</td>
+                <td>Numpad 0</td>
+              </tr>
+              <tr>
+                <th>Randomize</th>
+                <td>R</td>
+                <td>Home</td>
+                <td>Numpad *</td>
+              </tr>
+              <tr>
+                <th>Freeze</th>
+                <td>Z</td>
+                <td>Delete</td>
+                <td>Numpad .</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Mouse Controls</h3>
+        <p>The kaleidophone can be controlled entirely with a mouse or in tandem with a keyboard. Its window must be clicked to receive focus. Press <kbd>Escape</kbd> to show the cursor:</p>
+
+        <div class="scrollable">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Button</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Play</th>
+                <td>Mouse 5 (Forward)</td>
+              </tr>
+              <tr>
+                <th>Rewind</th>
+                <td>Mouse 4 (Back)</td>
+              </tr>
+              <tr>
+                <th>Increase Speed</th>
+                <td>Scroll Up (Wheel)</td>
+              </tr>
+              <tr>
+                <th>Decrease Speed</th>
+                <td>Scroll Down (Wheel)</td>
+              </tr>
+              <tr>
+                <th>Scrub Forward</th>
+                <td>Mouse 1 (Primary)</td>
+              </tr>
+              <tr>
+                <th>Scrub Backward</th>
+                <td>Mouse 3 (Secondary)</td>
+              </tr>
+              <tr>
+                <th>Turning</th>
+                <td>Mouse X-Axis</td>
+              </tr>
+              <tr>
+                <th>Randomize</th>
+                <td>Mouse 2 (Wheel)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Gamepad Controls</h3>
+        <p>The kaleidophone supports standard gamepads such as an Xbox One controller. Other controllers can be configured with a utility like <a href="https://github.com/x360ce/x360ce" rel="nofollow noopener" target="_blank">x360ce</a> or <a href="https://xpadder.com/" rel="nofollow noopener" target="_blank">Xpadder</a>:</p>
+
+        <div class="scrollable">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Button 1</th>
+                <th>Button 2</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Play</th>
+                <td>D-Pad Right</td>
+                <td>Right Bumper</td>
+              </tr>
+              <tr>
+                <th>Rewind</th>
+                <td>D-Pad Left</td>
+                <td>Left Bumper</td>
+              </tr>
+              <tr>
+                <th>Increase Speed</th>
+                <td>D-Pad Up</td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Decrease Speed</th>
+                <td>D-Pad Down</td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Scrub Forward</th>
+                <td>Any Stick</td>
+                <td>Right Trigger</td>
+              </tr>
+              <tr>
+                <th>Scrub Backward</th>
+                <td>Any Stick</td>
+                <td>Left Trigger</td>
+              </tr>
+              <tr>
+                <th>Turning</th>
+                <td>Any Stick</td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Toggle Rotation</th>
+                <td>A</td>
+                <td></td>
+              </tr>
+              <tr>
+                <th>Randomize</th>
+                <td>X</td>
+                <td>Select</td>
+              </tr>
+              <tr>
+                <th>Freeze</th>
+                <td>B</td>
+                <td>Start</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Touch Controls</h3>
+        <p>Its visualizer is also divided into a 3x3 grid of touch areas for use on mobile devices:</p>
+
+        <div class="scrollable">
+          <table>
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Touch Area</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Play</th>
+                <td>Center right</td>
+              </tr>
+              <tr>
+                <th>Rewind</th>
+                <td>Center left</td>
+              </tr>
+              <tr>
+                <th>Increase Speed</th>
+                <td>Top center</td>
+              </tr>
+              <tr>
+                <th>Decrease Speed</th>
+                <td>Bottom center</td>
+              </tr>
+              <tr>
+                <th>Toggle Rotation</th>
+                <td>Bottom left</td>
+              </tr>
+              <tr>
+                <th>Randomize</th>
+                <td>Center</td>
+              </tr>
+              <tr>
+                <th>Freeze</th>
+                <td>Top left</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2>Accessibility</h2>
+        <p>Kaleidophone is developed in accordance with WCAG (Web Content Accessibility Guidelines) 2.1 at Level AA conformance. Its menus are fully operable with a keyboard and screen readers such as NVDA.</p>
+
+        <h3>Graphical Description</h3>
+        <p>Each tone that the kaleidophone generates corresponds to a colored square drawn on its visualizer. It exhibits a radial symmetry which renders a colorful mandala of patterns that dance and evolve with its music.</p>
+
+        <h3>Photosensitivity Warning</h3>
+        <p>Kaleidophone is designed to conform to WCAG 2.1 SC 2.3.1 (Three Flashes or Below Threshold). However, beware that its visualizer can produce colorful and contrasting patterns that may be harmful. Users with photosensitivity are encouraged to take precaution before use.</p>
+      </section>
+
+      <section>
+        <h2>Support</h2>
+        <p>Please direct all support requests through the platform from which Kaleidophone was acquired:</p>
+
+        <ul>
+          <li><a href="https://shiftbacktick.itch.io/kaleidophone" rel="nofollow noopener" target="_blank">itch.io store page</a></li>
+          <li><a href="https://shiftbacktick.io" rel="nofollow noopener" target="_blank">Developer website</a></li>
+        </ul>
+
+        <p>Thanks for using Kaleidophone!</p>
+      </section>
+    </main>
+  </body>
+</html>

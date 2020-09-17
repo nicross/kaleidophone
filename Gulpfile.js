@@ -71,7 +71,19 @@ gulp.task('dist-electron', async () => {
 
   // XXX: Archives have no root directory
   paths.forEach((path) => {
-    gulp.src(path + '/**/*').pipe(
+    const build = gulp.src(path + '/**/*')
+
+    const manual = gulp.src([
+      'public/favicon.png',
+      'public/img/splash/logo.png',
+      'public/manual.html'
+    ], {base: 'public'}).pipe(
+      rename((path) => {
+        path.dirname = '/documentation/' + path.dirname
+      })
+    )
+
+    merge(build, manual).pipe(
       zip(path.replace('dist\\', '') + '.zip')
     ).pipe(
       gulp.dest('dist')
