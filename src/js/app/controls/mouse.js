@@ -7,6 +7,13 @@ app.controls.mouse = (() => {
     }
   })
 
+  // XXX: Default behavior not working in Electron
+  window.addEventListener('keydown', (e) => {
+    if (e.code == 'Escape') {
+      document.exitPointerLock()
+    }
+  })
+
   function isPointerLock() {
     return Boolean(document.pointerLockElement)
   }
