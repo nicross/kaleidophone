@@ -100,6 +100,7 @@ gulp.task('dist-html5', () => {
     'public/img/splash/interact.png',
     'public/img/splash/logo.png',
     'public/index.html',
+    'public/manual.html',
     'public/scripts.min.js',
     'public/styles.min.css',
   ], {base: 'public'}).pipe(
