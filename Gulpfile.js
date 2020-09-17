@@ -5,8 +5,10 @@ const gulp = require('gulp')
 const header = require('gulp-header')
 const gulpif = require('gulp-if')
 const iife = require('gulp-iife')
+const merge = require('merge-stream')
 const package = require('./package.json')
 const packager = require('electron-packager')
+const rename = require('gulp-rename')
 const uglify = require('gulp-uglify-es').default
 const zip = require('gulp-zip')
 
