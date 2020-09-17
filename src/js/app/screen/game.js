@@ -140,6 +140,7 @@ app.screen.game = (() => {
 
     engine.audio.ramp.linear(engine.audio.mixer.master.param.gain, 1, 1)
 
+    engine.audio.start()
     engine.loop.resume()
   }
 

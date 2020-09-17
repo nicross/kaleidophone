@@ -3,7 +3,7 @@ app.state.screen = engine.utility.machine.create({
   transition: {
     game: {},
     none: {
-      activate: function () {
+      ready: function () {
         this.change('splash')
       },
     },
@@ -21,7 +21,7 @@ engine.ready(() => {
     element.setAttribute('role', 'persentation')
   })
 
-  app.state.screen.dispatch('activate')
+  app.state.screen.dispatch('ready')
 })
 
 app.state.screen.on('exit', (e) => {
