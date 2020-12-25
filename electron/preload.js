@@ -1,7 +1,5 @@
-const {remote} = require('electron')
+const {contextBridge, ipcRenderer} = require('electron')
 
-process.once('loaded', () => {
-  global.ElectronApi = {
-    quit: () => remote.app.quit(),
-  }
+contextBridge.exposeInMainWorld('ElectronApi', {
+  quit: () => ipcRenderer.send('quit')
 })

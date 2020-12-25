@@ -1,4 +1,4 @@
-const {app} = require('electron')
+const {app, ipcMain} = require('electron')
 
 const AspectRatioBrowserWindow = require('electron-aspect-ratio-browser-window')
 
@@ -26,6 +26,7 @@ function createWindow() {
     height: 64,
     width: 64,
     webPreferences: {
+      contextIsolation: true,
       devTools: true,
       preload: path.join(__dirname, 'preload.js'),
     }
@@ -66,3 +67,5 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+ipcMain.on('quit', () => app.quit())
