@@ -1,5 +1,4 @@
 engine.const.midiReferenceFrequency = 432
-engine.const.propFadeDuration = 1/16
 
 content.const = {
   kaleidoDelay: 1/4,

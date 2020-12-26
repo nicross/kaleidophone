@@ -1,5 +1,7 @@
 content.prop.tone = engine.prop.base.invent({
   name: 'tone',
+  fadeInDuration: 1/16,
+  fadeOutDuration: 1/16,
   onConstruct: function ({
     detune = 0,
     frequency = 440,
@@ -20,4 +22,5 @@ content.prop.tone = engine.prop.base.invent({
   onDestroy: function () {
     this.synth.stop()
   },
+  reverb: false,
 })

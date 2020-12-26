@@ -1,5 +1,8 @@
 # Kaleidophone changelog
 
+## v1.1.1
+- Updated to Chrome 87
+
 ## v1.1.0
 - Added mouse controls
 - Added user documentation

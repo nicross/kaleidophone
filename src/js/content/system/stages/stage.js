@@ -22,7 +22,7 @@ content.system.stages.stage.prototype = {
 
     setTimeout(() => {
       this.bus.disconnect()
-    }, engine.const.propFadeDuration * 1000)
+    }, content.prop.tone.fadeOutDuration * 1000)
 
     return this
   },
