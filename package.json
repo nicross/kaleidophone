@@ -8,9 +8,11 @@
   "license": "Unlicense",
   "main": "electron/main.js",
   "private": true,
+  "dependencies": {
+    "electron-aspect-ratio-browser-window": "^1.0.2"
+  },
   "devDependencies": {
     "electron": "^11.1.1",
-    "electron-aspect-ratio-browser-window": "^1.0.2",
     "electron-packager": "^14.2.1",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
