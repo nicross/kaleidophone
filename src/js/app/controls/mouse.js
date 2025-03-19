@@ -40,7 +40,7 @@ app.controls.mouse = (() => {
       }
 
       if (mouse.moveX) {
-        state.rotate = engine.utility.scale(mouse.moveX, -window.innerWidth, window.innerWidth, 1, -1) * sensitivity
+        state.rotate = Math.sign(mouse.moveX)
       }
 
       return state
