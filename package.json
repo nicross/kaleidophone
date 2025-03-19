@@ -1,10 +1,10 @@
 {
   "name": "Kaleidophone",
-  "version": "1.1.1",
   "author": {
     "name": "shiftBacktick",
     "url": "https://shiftbacktick.io"
   },
+  "version": "1.1.2",
   "license": "Unlicense",
   "main": "electron/main.js",
   "private": true,
