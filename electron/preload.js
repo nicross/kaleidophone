@@ -1,5 +1,5 @@
 const {contextBridge, ipcRenderer} = require('electron')
 
 contextBridge.exposeInMainWorld('ElectronApi', {
-  quit: () => ipcRenderer.send('quit')
+  quit: () => ipcRenderer.send('quit'),
 })

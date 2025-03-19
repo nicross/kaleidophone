@@ -14,6 +14,7 @@ const app = {
   screen: {},
   state: {},
   utility: {},
+  version: () => '0.0.0', // Replaced via Gulpfile.js
 }
 
 engine.ready(() => app.activate())

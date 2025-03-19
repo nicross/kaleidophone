@@ -1,31 +1,27 @@
 {
   "name": "Kaleidophone",
-  "author": {
-    "name": "shiftBacktick",
-    "url": "https://shiftbacktick.io"
-  },
   "version": "1.1.2",
+  "description": "",
   "license": "Unlicense",
   "main": "electron/main.js",
   "private": true,
-  "dependencies": {
-    "electron-aspect-ratio-browser-window": "^1.0.2"
-  },
   "devDependencies": {
-    "electron": "^11.1.1",
-    "electron-packager": "^14.2.1",
+    "electron": "^35.0.2",
+    "electron-packager": "^15.5.2",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
+    "gulp-footer": "^2.1.0",
     "gulp-header": "^2.0.9",
     "gulp-if": "^3.0.0",
     "gulp-iife": "^0.4.0",
     "gulp-rename": "^2.0.0",
     "gulp-run-electron": "^3.0.2",
-    "gulp-uglify-es": "^1.0.4",
-    "gulp-zip": "^5.0.1",
+    "gulp-serve": "^1.4.0",
+    "gulp-uglify-es": "^3.0.0",
+    "gulp-zip": "^5.1.0",
     "merge-stream": "^2.0.0",
     "syngen": "^0.1.1",
-    "yargs": "^15.3.1"
+    "yargs": "^17.7.0"
   }
 }

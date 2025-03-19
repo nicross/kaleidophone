@@ -20,27 +20,27 @@ Common tasks have been automated with [Gulp](https://gulpjs.com):
 
 #### Build once
 ```sh
-gulp build
+npx gulp build
 ```
 
 #### Build continuously
 ```sh
-gulp watch
+npx gulp watch
 ```
 
 #### Create distributables
 ```sh
-gulp dist
+npx gulp dist
 ```
 
 #### Open in Electron
 ```sh
-gulp electron
+npx gulp electron
 ```
 
 #### Build and open in Electron
 ```sh
-gulp electron-build
+npx ulp electron-build
 ```
 
 #### Command line flags

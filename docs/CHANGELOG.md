@@ -1,5 +1,9 @@
 # Kaleidophone changelog
 
+## v1.1.2
+- Fixed a startup error with the desktop build
+- Upgraded to Electron 35
+
 ## v1.1.1
 - Updated to Chrome 87
 

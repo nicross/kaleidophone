@@ -1,6 +1,7 @@
 const cleancss = require('gulp-clean-css')
 const concat = require('gulp-concat')
 const electron = require('gulp-run-electron')
+const footer = require('gulp-footer')
 const gulp = require('gulp')
 const header = require('gulp-header')
 const gulpif = require('gulp-if')
@@ -9,6 +10,7 @@ const merge = require('merge-stream')
 const package = require('./package.json')
 const packager = require('electron-packager')
 const rename = require('gulp-rename')
+const serve = require('gulp-serve')
 const uglify = require('gulp-uglify-es').default
 const zip = require('gulp-zip')
 
@@ -33,6 +35,10 @@ gulp.task('build-js', () => {
   ).pipe(
     concat('scripts.min.js')
   ).pipe(
+    footer(
+      `;app.version=()=>'${package.version + (isDebug ? '-debug' : '')}';`
+    )
+  ).pipe(
     gulpif(!isDebug, iife(), header("'use strict';\n\n"))
   ).pipe(
     gulp.dest('public')
@@ -56,11 +62,11 @@ gulp.task('dist-electron', async () => {
     icon: 'assets/icon/icon',
     ignore: [
       '.gitignore',
-      '.gitmodules',
       'assets',
       'dist',
       'docs',
       'Gulpfile.js',
+      'node_modules',
       'package-lock.json',
       'README.md',
       'src',
@@ -103,7 +109,7 @@ gulp.task('dist-html5', () => {
     'public/scripts.min.js',
     'public/styles.min.css',
   ], {base: 'public'}).pipe(
-    zip(package.name + '-html5.zip')
+    zip(package.name + '-html5' + '.zip')
   ).pipe(
     gulp.dest('dist')
   )
@@ -117,11 +123,15 @@ gulp.task('electron', () => {
   )
 })
 
-gulp.task('electron-build', gulp.series('build', 'electron'))
+gulp.task('electron-rebuild', gulp.series('build', 'electron'))
+
+gulp.task('serve', serve('public'))
 
 gulp.task('watch', () => {
-  gulp.watch('src/**', gulp.series('build'))
+  gulp.watch(['src/**'], gulp.series('build'))
 })
+
+gulp.task('dev', gulp.parallel('serve', 'watch'))
 
 function getCss() {
   const srcs = [
