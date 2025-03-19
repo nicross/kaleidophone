@@ -47,6 +47,10 @@ app.screen.game = (() => {
     const game = app.controls.game(),
       ui = app.controls.ui()
 
+    if (ui.quit) {
+      app.quit()
+    }
+
     if (ui.play) {
       autoMove = autoMove != 1 ? 1 : 0
     }

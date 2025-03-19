@@ -108,6 +108,10 @@ app.controls.keyboard = {
       state.freeze = true
     }
 
+    if (keys.Escape) {
+      state.quit = true
+    }
+
     return state
   },
 }
