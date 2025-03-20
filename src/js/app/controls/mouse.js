@@ -1,6 +1,4 @@
 app.controls.mouse = (() => {
-  const sensitivity = 100
-
   window.addEventListener('click', () => {
     if (!isPointerLock()) {
       requestPointerLock()

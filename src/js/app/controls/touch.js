@@ -5,14 +5,17 @@ app.controls.touch = (() => {
     width = 0
 
   engine.ready(() => {
-    const game = document.querySelector('.a-game--canvas')
-
-    game.addEventListener('touchend', onTouchEnd)
-    game.addEventListener('touchstart', onTouchStart)
+    window.addEventListener('touchend', onTouchEnd)
+    window.addEventListener('touchstart', onTouchStart)
 
     window.addEventListener('orientationchange', cacheDimensions)
     window.addEventListener('resize', cacheDimensions)
     cacheDimensions()
+  })
+
+  // XXX: Prevent touches causing pointer lock
+  window.addEventListener('touchend', (e) => {
+    e.preventDefault()
   })
 
   function cacheDimensions() {
@@ -23,6 +26,29 @@ app.controls.touch = (() => {
   function getAction(touch) {
     const x = touch.clientX,
       y = touch.clientY
+
+    // Top, left to right
+    if (
+         engine.utility.between(x, 0, width * 1/3)
+      && engine.utility.between(y, 0, height * 1/3)
+    ) {
+      return 'freeze'
+    }
+    if (
+         engine.utility.between(x, width * 1/3, width * 2/3)
+      && engine.utility.between(y, 0, height * 1/3)
+    ) {
+      return 'increaseSpeed'
+    }
+    // No top right
+
+    // Center, left to right
+    if (
+         engine.utility.between(x, 0, width * 1/3)
+      && engine.utility.between(y, height * 1/3, height * 2/3)
+    ) {
+      return 'rewind'
+    }
 
     if (
          engine.utility.between(x, width * 1/3, width * 2/3)
@@ -38,20 +64,8 @@ app.controls.touch = (() => {
       return 'play'
     }
 
-    if (
-         engine.utility.between(x, 0, width * 1/3)
-      && engine.utility.between(y, height * 1/3, height * 2/3)
-    ) {
-      return 'rewind'
-    }
-
-    if (
-         engine.utility.between(x, width * 1/3, width * 2/3)
-      && engine.utility.between(y, 0, height * 1/3)
-    ) {
-      return 'increaseSpeed'
-    }
-
+    // Bottom, left to right
+    // No bottom left
     if (
          engine.utility.between(x, width * 1/3, width * 2/3)
       && engine.utility.between(y, height * 2/3, height)
@@ -64,13 +78,6 @@ app.controls.touch = (() => {
       && engine.utility.between(y, height * 2/3, height)
     ) {
       return 'toggleRotate'
-    }
-
-    if (
-         engine.utility.between(x, 0, width * 1/3)
-      && engine.utility.between(y, 0, height * 1/3)
-    ) {
-      return 'freeze'
     }
 
     return 'unknown'

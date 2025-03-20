@@ -4,6 +4,7 @@ app.screen.splash = (() => {
   engine.ready(() => {
     root = document.querySelector('.a-splash')
     root.addEventListener('click', onInteract)
+    root.addEventListener('touchstart', onInteract)
 
     app.utility.focus.trap(root)
 

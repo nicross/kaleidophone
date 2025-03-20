@@ -4,7 +4,8 @@
 - Fixed a startup error with the desktop build
 - Added escape to quit hotkey to the desktop build
 - Used consistent mouse turning speed at different window sizes
-- Upgraded to Electron 35
+- Fixed issues with touch controls
+- Upgraded desktop builds to Electron 35
 
 ## v1.1.1
 - Updated to Chrome 87

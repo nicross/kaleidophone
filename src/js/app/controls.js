@@ -23,6 +23,7 @@ app.controls = (() => {
       ...app.controls.gamepad.ui(),
       ...app.controls.keyboard.ui(),
       ...app.controls.mouse.ui(),
+      ...app.controls.touch.ui(),
     }
 
     uiDelta = {}
